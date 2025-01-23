@@ -3,12 +3,14 @@ package it.unibz.inf.ontouml.vp.model.ontouml;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
-import it.unibz.inf.ontouml.vp.model.ontouml.model.*;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Class;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Package;
+import org.ontouml.vp.model.ontouml.Project;
+
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.ontouml.vp.model.ontouml.model.*;
+import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.vp.model.ontouml.model.Package;
 
 class ProjectTest {
   Project project = new Project();

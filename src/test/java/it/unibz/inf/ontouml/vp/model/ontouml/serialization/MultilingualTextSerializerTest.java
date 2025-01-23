@@ -4,7 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import it.unibz.inf.ontouml.vp.model.ontouml.MultilingualText;
+import org.ontouml.vp.model.ontouml.MultilingualText;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

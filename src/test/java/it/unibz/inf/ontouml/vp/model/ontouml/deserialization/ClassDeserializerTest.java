@@ -4,11 +4,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Class;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.ClassStereotype;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Literal;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Nature;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Property;
+import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.vp.model.ontouml.model.ClassStereotype;
+import org.ontouml.vp.model.ontouml.model.Literal;
+import org.ontouml.vp.model.ontouml.model.Nature;
+import org.ontouml.vp.model.ontouml.model.Property;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;

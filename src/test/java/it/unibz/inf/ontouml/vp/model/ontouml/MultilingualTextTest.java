@@ -6,6 +6,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.ontouml.vp.model.ontouml.MultilingualText;
 
 class MultilingualTextTest {
   MultilingualText text = new MultilingualText();

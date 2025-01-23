@@ -5,8 +5,9 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import it.unibz.inf.ontouml.vp.model.ontouml.*;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Package;
+import org.ontouml.vp.model.ontouml.Element;
+import org.ontouml.vp.model.ontouml.Project;
+import org.ontouml.vp.model.ontouml.model.Package;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Stream;

@@ -2,9 +2,10 @@ package it.unibz.inf.ontouml.vp.model.ontouml;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Class;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Property;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Relation;
+import org.ontouml.vp.model.ontouml.OntoumlElement;
+import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.vp.model.ontouml.model.Property;
+import org.ontouml.vp.model.ontouml.model.Relation;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 

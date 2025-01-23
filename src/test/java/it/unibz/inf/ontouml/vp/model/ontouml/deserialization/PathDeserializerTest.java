@@ -3,8 +3,8 @@ package it.unibz.inf.ontouml.vp.model.ontouml.deserialization;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unibz.inf.ontouml.vp.model.ontouml.view.Path;
-import it.unibz.inf.ontouml.vp.model.ontouml.view.Point;
+import org.ontouml.vp.model.ontouml.view.Path;
+import org.ontouml.vp.model.ontouml.view.Point;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;

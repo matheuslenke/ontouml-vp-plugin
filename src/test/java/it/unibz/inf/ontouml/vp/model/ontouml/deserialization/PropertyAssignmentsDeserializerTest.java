@@ -4,7 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.vp.model.ontouml.model.Class;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;

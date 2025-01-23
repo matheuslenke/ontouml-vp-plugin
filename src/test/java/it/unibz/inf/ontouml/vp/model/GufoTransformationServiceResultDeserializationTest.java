@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.ontouml.vp.model.GufoTransformationServiceResult;
+import org.ontouml.vp.model.ServiceIssue;
 
 public class GufoTransformationServiceResultDeserializationTest {
 

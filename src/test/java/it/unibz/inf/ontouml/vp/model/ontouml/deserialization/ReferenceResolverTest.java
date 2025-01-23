@@ -5,12 +5,12 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.truth.Truth8;
-import it.unibz.inf.ontouml.vp.model.ontouml.Project;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.*;
-import it.unibz.inf.ontouml.vp.model.ontouml.model.Class;
-import it.unibz.inf.ontouml.vp.model.ontouml.view.ClassView;
-import it.unibz.inf.ontouml.vp.model.ontouml.view.GeneralizationView;
-import it.unibz.inf.ontouml.vp.model.ontouml.view.RelationView;
+import org.ontouml.vp.model.ontouml.Project;
+import org.ontouml.vp.model.ontouml.model.*;
+import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.vp.model.ontouml.view.ClassView;
+import org.ontouml.vp.model.ontouml.view.GeneralizationView;
+import org.ontouml.vp.model.ontouml.view.RelationView;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
