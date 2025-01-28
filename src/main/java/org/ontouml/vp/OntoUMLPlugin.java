@@ -1,11 +1,12 @@
 package org.ontouml.vp;
 
+import org.ontouml.vp.services.project.ProjectListener;
+
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.ProjectManager;
 import com.vp.plugin.VPPlugin;
 import com.vp.plugin.VPPluginInfo;
 import com.vp.plugin.model.IProject;
-import org.ontouml.vp.listeners.ProjectListener;
 
 /**
  * Implementation of VPPlugin responsible for configuring OntoUML Plugin's behaviour when loading

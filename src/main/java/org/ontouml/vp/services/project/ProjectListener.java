@@ -1,10 +1,10 @@
-package org.ontouml.vp.listeners;
+package org.ontouml.vp.services.project;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.IProjectListener;
 import org.ontouml.vp.OntoUMLPlugin;
-import org.ontouml.vp.controllers.GitHubAccessController;
+import org.ontouml.vp.listeners.ProjectDiagramListener;
 import org.ontouml.vp.model.Configurations;
 import org.ontouml.vp.model.GitHubRelease;
 import org.ontouml.vp.utils.StereotypesManager;

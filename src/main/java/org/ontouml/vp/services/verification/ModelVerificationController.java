@@ -1,4 +1,4 @@
-package org.ontouml.vp.controllers;
+package org.ontouml.vp.services.verification;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.action.VPAction;
@@ -6,6 +6,8 @@ import com.vp.plugin.action.VPActionController;
 import com.vp.plugin.diagram.IBaseDiagramElement;
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.IDiagramUIModel;
+
+import org.ontouml.vp.controllers.OntoUMLServerAccessController;
 import org.ontouml.vp.model.ServiceIssue;
 import org.ontouml.vp.model.VerificationServiceResult;
 import org.ontouml.vp.model.vp2ontouml.Uml2OntoumlTransformer;

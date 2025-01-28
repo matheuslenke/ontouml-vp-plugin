@@ -1,8 +1,10 @@
-package org.ontouml.vp.controllers;
+package org.ontouml.vp.services.gufo;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.action.VPAction;
 import com.vp.plugin.action.VPActionController;
+
+import org.ontouml.vp.controllers.OntoUMLServerAccessController;
 import org.ontouml.vp.model.Configurations;
 import org.ontouml.vp.model.GufoExportOptions;
 import org.ontouml.vp.model.GufoTransformationServiceResult;

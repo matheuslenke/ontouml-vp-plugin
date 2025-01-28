@@ -1,4 +1,4 @@
-package org.ontouml.vp.controllers;
+package org.ontouml.vp.services.project;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
@@ -7,7 +7,6 @@ import org.ontouml.vp.model.Configurations;
 import org.ontouml.vp.model.GitHubRelease;
 import org.ontouml.vp.model.GitHubReleaseAsset;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;

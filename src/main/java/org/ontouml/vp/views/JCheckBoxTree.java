@@ -6,6 +6,8 @@ import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.IDiagramUIModel;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
+
+import org.ontouml.vp.services.gufo.GufoExportView;
 import org.ontouml.vp.utils.ViewManagerUtils;
 import java.awt.*;
 import java.util.*;

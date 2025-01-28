@@ -1,9 +1,11 @@
-package org.ontouml.vp.listeners;
+package org.ontouml.vp.services.project;
 
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.IProjectModelListener;
 import com.vp.plugin.model.factory.IModelElementFactory;
+
+import org.ontouml.vp.listeners.ModelListener;
 import org.ontouml.vp.utils.ApplicationManagerUtils;
 import java.util.Collections;
 import java.util.Set;

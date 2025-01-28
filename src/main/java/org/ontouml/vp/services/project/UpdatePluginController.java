@@ -1,4 +1,4 @@
-package org.ontouml.vp.controllers;
+package org.ontouml.vp.services.project;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.action.VPAction;

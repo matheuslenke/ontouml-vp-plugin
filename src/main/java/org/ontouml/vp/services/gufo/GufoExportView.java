@@ -1,4 +1,4 @@
-package org.ontouml.vp.views;
+package org.ontouml.vp.services.gufo;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -14,6 +14,8 @@ import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.factory.IModelElementFactory;
 import com.vp.plugin.view.IDialog;
 import org.ontouml.vp.model.ProjectConfigurations;
+import org.ontouml.vp.views.JCheckBoxTree;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

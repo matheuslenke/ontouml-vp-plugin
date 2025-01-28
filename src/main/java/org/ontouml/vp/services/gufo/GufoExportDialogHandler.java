@@ -1,4 +1,4 @@
-package org.ontouml.vp.controllers;
+package org.ontouml.vp.services.gufo;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.ViewManager;
@@ -7,7 +7,7 @@ import com.vp.plugin.view.IDialogHandler;
 import org.ontouml.vp.OntoUMLPlugin;
 import org.ontouml.vp.model.Configurations;
 import org.ontouml.vp.model.ProjectConfigurations;
-import org.ontouml.vp.views.GufoExportView;
+
 import java.awt.Component;
 
 class GufoExportDialogHandler implements IDialogHandler {

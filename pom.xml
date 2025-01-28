@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.unibz.inf.ontouml</groupId>
+    <groupId>org.ontouml</groupId>
     <artifactId>ontouml-vp-plugin</artifactId>
     <version>0.5.3</version>
 
@@ -38,9 +38,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <visualparadigm.app.dir>
+           /Applications/Visual Paradigm.app/Contents/Resources/app
         </visualparadigm.app.dir>
-        <visualparadigm.plugin.dir>
-        </visualparadigm.plugin.dir>
+         <visualparadigm.plugin.dir>
+             /Users/matheuslenke/Library/Application Support/VisualParadigm/plugins
+         </visualparadigm.plugin.dir>
     </properties>
 
     <dependencies>
