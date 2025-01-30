@@ -1,10 +1,10 @@
-package it.unibz.inf.ontouml.vp.model;
+package org.ontouml.vp.model;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ontouml.vp.model.ModularizationServiceResult;
-import org.ontouml.vp.model.ontouml.Project;
+import org.ontouml.ontouml4j.model.Project;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

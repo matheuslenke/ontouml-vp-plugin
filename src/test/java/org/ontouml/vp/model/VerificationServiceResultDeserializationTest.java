@@ -1,4 +1,4 @@
-package it.unibz.inf.ontouml.vp.model;
+package org.ontouml.vp.model;
 
 import static com.google.common.truth.Truth.assertThat;
 
