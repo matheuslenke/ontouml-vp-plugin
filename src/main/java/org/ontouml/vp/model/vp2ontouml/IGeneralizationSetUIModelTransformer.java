@@ -2,8 +2,8 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
-import org.ontouml.vp.model.ontouml.model.GeneralizationSet;
-import org.ontouml.vp.model.ontouml.view.GeneralizationSetView;
+import org.ontouml.ontouml4j.model.GeneralizationSet;
+import org.ontouml.ontouml4j.model.view.GeneralizationSetView;
 
 public class IGeneralizationSetUIModelTransformer {
 

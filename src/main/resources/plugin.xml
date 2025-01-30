@@ -1,6 +1,6 @@
 <plugin
   id="it.unibz.inf.ontouml.vp"
-  description="OntoUML Plugin Visual Paradigm v0.5.3"
+  description="OntoUML Plugin Visual Paradigm v0.5.4"
   provider="University of Bolzano"
   class="org.ontouml.vp.OntoUMLPlugin">
 
@@ -23,7 +23,7 @@
         icon="icons/toolbar/check-circle-orange.png"
         label="Check Model"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.ModelVerificationController"/>
+        <actionController class="org.ontouml.vp.services.verification.ModelVerificationController"/>
       </action>
 
       <action
@@ -35,7 +35,7 @@
         icon="icons/toolbar/check-mark-orange.png"
         label="Check Diagram"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.ModelVerificationController"/>
+        <actionController class="org.ontouml.vp.services.verification.ModelVerificationController"/>
       </action>
 
       <action
@@ -60,7 +60,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Import from JSON"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.JsonImportAndExportController"/>
+        <actionController class="org.ontouml.vp.services.json.JsonImportAndExportController"/>
       </action>
 
       <action
@@ -72,7 +72,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Import from JSON"
         ribbonPath="Project/Import/#">
-        <actionController class="org.ontouml.vp.controllers.JsonImportAndExportController"/>
+        <actionController class="org.ontouml.vp.services.json.JsonImportAndExportController"/>
       </action>
 
       <separator id="project.import.ontouml" ribbonPath="Project/Import/#"/>
@@ -86,7 +86,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Export to JSON"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.JsonImportAndExportController"/>
+        <actionController class="org.ontouml.vp.services.json.JsonImportAndExportController"/>
       </action>
 
       <action
@@ -98,7 +98,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Export to JSON"
         ribbonPath="Project/Export/#">
-        <actionController class="org.ontouml.vp.controllers.JsonImportAndExportController"/>
+        <actionController class="org.ontouml.vp.services.json.JsonImportAndExportController"/>
       </action>
 
       <action
@@ -110,7 +110,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Export to gUFO"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.GufoExportController"/>
+        <actionController class="org.ontouml.vp.services.gufo.GufoExportController"/>
       </action>
 
       <action
@@ -122,7 +122,7 @@
         icon="icons/logo/ontouml-simple-logo-small.png"
         label="Export to gUFO"
         ribbonPath="Project/Export/#">
-        <actionController class="org.ontouml.vp.controllers.GufoExportController"/>
+        <actionController class="org.ontouml.vp.services.gufo.GufoExportController"/>
       </action>
 
       <separator id="project.export.ontouml" ribbonPath="Project/Export/#"/>
@@ -136,7 +136,7 @@
         icon="icons/toolbar/update-orange.png"
         label="Update Plugin"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.UpdatePluginController"/>
+        <actionController class="org.ontouml.vp.services.project.UpdatePluginController"/>
       </action>
 
       <action
@@ -171,7 +171,7 @@
         tooltip="Reload Plugin"
         style="normal"
         menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
-        <actionController class="org.ontouml.vp.controllers.vp.ReloadClassesController"/>
+        <actionController class="org.ontouml.vp.services.reload.ReloadClassesController"/>
       </action>
      
 

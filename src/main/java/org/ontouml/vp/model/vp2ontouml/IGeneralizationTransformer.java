@@ -2,9 +2,9 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.IGeneralization;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.OntoumlElement;
-import org.ontouml.vp.model.ontouml.model.Classifier;
-import org.ontouml.vp.model.ontouml.model.Generalization;
+import org.ontouml.ontouml4j.model.OntoumlElement;
+import org.ontouml.ontouml4j.model.Classifier;
+import org.ontouml.ontouml4j.model.Generalization;
 
 public class IGeneralizationTransformer {
 

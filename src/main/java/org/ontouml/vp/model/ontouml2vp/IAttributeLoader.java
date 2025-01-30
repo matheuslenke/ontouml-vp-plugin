@@ -3,10 +3,10 @@ package org.ontouml.vp.model.ontouml2vp;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.AggregationKind;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.model.Classifier;
-import org.ontouml.vp.model.ontouml.model.Property;
+import org.ontouml.ontouml4j.model.utils.AggregationKind;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.Classifier;
+import org.ontouml.ontouml4j.model.Property;
 import java.util.Optional;
 
 public class IAttributeLoader {

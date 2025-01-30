@@ -3,7 +3,7 @@ package org.ontouml.vp.model.ontouml2vp;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.ITaggedValue;
 import com.vp.plugin.model.ITaggedValueContainer;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
+import org.ontouml.ontouml4j.model.ModelElement;
 
 public class ITaggedValueLoader {
 
@@ -11,7 +11,7 @@ public class ITaggedValueLoader {
     ITaggedValueContainer taggedValueContainer = toModelElement.getTaggedValues();
 
     fromElement
-        .getPropertyAssignments()
+        .getCustomProperties()
         .forEach(
             (key, value) -> {
               ITaggedValue taggedValue = taggedValueContainer.createTaggedValue();

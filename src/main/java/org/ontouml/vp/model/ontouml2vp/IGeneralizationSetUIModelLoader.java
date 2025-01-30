@@ -6,7 +6,7 @@ import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
 import com.vp.plugin.model.IGeneralizationSet;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.view.GeneralizationSetView;
+import org.ontouml.ontouml4j.model.view.GeneralizationSetView;
 
 public class IGeneralizationSetUIModelLoader {
 
@@ -29,9 +29,10 @@ public class IGeneralizationSetUIModelLoader {
     toView.setNotation(2);
     toView.resetCaption();
 
-    toView.setX(fromView.getX());
-    toView.setY(fromView.getY());
-    toView.setWidth(fromView.getWidth());
-    toView.setHeight(fromView.getHeight());
+    // TODO
+    // toView.setX(fromView.getX());
+    // toView.setY(fromView.getY());
+    // toView.setWidth(fromView.getWidth());
+    // toView.setHeight(fromView.getHeight());
   }
 }

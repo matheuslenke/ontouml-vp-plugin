@@ -8,10 +8,10 @@ import com.vp.plugin.model.IDataType;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.OntoumlElement;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.view.ElementView;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.NamedElement;
+import org.ontouml.ontouml4j.model.view.View;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -20,25 +20,25 @@ public class LoaderUtils {
 
   static IProject vpProject = ApplicationManager.instance().getProjectManager().getProject();
 
-  static IDiagramElement getIDiagramElement(IClassDiagramUIModel vpDiagram, ElementView view) {
+  static IDiagramElement getIDiagramElement(IClassDiagramUIModel vpDiagram, View view) {
     String targetId = view.getId();
     return vpDiagram.getDiagramElementById(targetId);
   }
 
   static <T extends IDiagramElement> T getIDiagramElement(
-      IClassDiagramUIModel vpDiagram, ElementView view, java.lang.Class<T> vpType) {
+      IClassDiagramUIModel vpDiagram, View view, java.lang.Class<T> vpType) {
     String targetId = view.getId();
     return vpType.cast(vpDiagram.getDiagramElementById(targetId));
   }
 
-  static IModelElement getIModelElement(ElementView view) {
+  static IModelElement getIModelElement(View view) {
     IProject vpProject = ApplicationManager.instance().getProjectManager().getProject();
-    String modelElementId = view.getModelElement().getId();
+    String modelElementId = view.getIsViewOf().getId();
     return vpProject.getModelElementById(modelElementId);
   }
 
   static String getIncompatibleMessage(
-      ElementView fromView, IModelElement toModelElement, java.lang.Class<?> expected) {
+      View fromView, IModelElement toModelElement, java.lang.Class<?> expected) {
     return "Skipped "
         + fromView.getType()
         + ": "
@@ -50,7 +50,7 @@ public class LoaderUtils {
         + ")";
   }
 
-  static String getModelElementImportingMessage(OntoumlElement fromElement) {
+  static String getModelElementImportingMessage(NamedElement fromElement) {
     return "Importing "
         + fromElement.getType()
         + ": "
@@ -60,7 +60,7 @@ public class LoaderUtils {
         + ")";
   }
 
-  static void logElementCreation(OntoumlElement element) {
+  static void logElementCreation(NamedElement element) {
     System.out.println(getModelElementImportingMessage(element));
   }
 

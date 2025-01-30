@@ -8,14 +8,15 @@ import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.model.IAssociationClass;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.view.RelationView;
+
+import org.ontouml.ontouml4j.model.view.BinaryRelationView;
 import java.awt.Point;
 
 public class IAssociationClassUIModelLoader {
 
   static DiagramManager diagramManager = ApplicationManager.instance().getDiagramManager();
 
-  public static void load(IClassDiagramUIModel toDiagram, RelationView fromView) {
+  public static void load(IClassDiagramUIModel toDiagram, BinaryRelationView fromView) {
     IModelElement toModelElement = LoaderUtils.getIModelElement(fromView);
 
     if (!(toModelElement instanceof IAssociationClass)) {
@@ -24,8 +25,8 @@ public class IAssociationClassUIModelLoader {
       return;
     }
 
-    IDiagramElement toSource = LoaderUtils.getIDiagramElement(toDiagram, fromView.getSource());
-    IDiagramElement toTarget = LoaderUtils.getIDiagramElement(toDiagram, fromView.getTarget());
+    IDiagramElement toSource = LoaderUtils.getIDiagramElement(toDiagram, fromView.getSourceView());
+    IDiagramElement toTarget = LoaderUtils.getIDiagramElement(toDiagram, fromView.getTargetView());
 
     Point[] toPoints = IConnectorUIModelLoader.loadPoints(fromView);
 

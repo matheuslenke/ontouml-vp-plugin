@@ -3,7 +3,7 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.ITaggedValue;
 import com.vp.plugin.model.ITaggedValueContainer;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
+import org.ontouml.ontouml4j.model.ModelElement;
 import org.ontouml.vp.utils.StereotypesManager;
 
 import java.util.AbstractMap;
@@ -14,7 +14,7 @@ public class ITaggedValueTransformer {
 
   public static void transform(IModelElement source, ModelElement target) {
     Map<String, Object> map = ITaggedValueTransformer.createTaggedValueMap(source);
-    target.setPropertyAssignments(map);
+    target.setCustomProperties(map);
   }
 
   private static Map<String, Object> createTaggedValueMap(IModelElement sourceElement) {

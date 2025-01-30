@@ -3,8 +3,8 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.model.IModel;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IPackage;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.model.Package;
+import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.Package;
 
 public class IPackageTransformer {
 

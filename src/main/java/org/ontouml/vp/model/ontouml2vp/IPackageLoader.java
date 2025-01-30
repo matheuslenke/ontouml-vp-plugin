@@ -5,7 +5,7 @@ import com.vp.plugin.model.IHasChildrenBaseModelElement;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.Package;
+import org.ontouml.ontouml4j.model.Package;
 
 public class IPackageLoader {
 

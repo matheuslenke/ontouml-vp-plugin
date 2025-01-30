@@ -5,7 +5,7 @@ import static org.ontouml.vp.model.uml.Class.*;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.ontouml4j.model.Class;
 import org.ontouml.vp.utils.StereotypesManager;
 
 import java.util.stream.Collectors;
@@ -30,11 +30,12 @@ public class IClassLoader {
     boolean isDerived = fromClass.isDerived();
     setDerived(toClass, isDerived);
 
-    fromClass
-        .isExtensional()
-        .ifPresent(
-            aBoolean -> org.ontouml.vp.model.uml.Class.isExtensional(toClass, aBoolean));
-    fromClass.isPowertype().ifPresent(aBoolean -> setIsPowertype(toClass, aBoolean));
+    // TODO
+    // fromClass
+    //     .isExtensional()
+    //     .ifPresent(
+    //         aBoolean -> org.ontouml.vp.model.uml.Class.isExtensional(toClass, aBoolean));
+    // fromClass.isPowertype().ifPresent(aBoolean -> setIsPowertype(toClass, aBoolean));
     fromClass.getOrderAsString().ifPresent(aString -> setOrder(toClass, aString));
 
     String restrictedTo = getRestrictedToString(fromClass);

@@ -3,7 +3,7 @@ package org.ontouml.vp.model.ontouml2vp;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.GeneralizationSet;
+import org.ontouml.ontouml4j.model.GeneralizationSet;
 
 public class IGeneralizationSetLoader {
 

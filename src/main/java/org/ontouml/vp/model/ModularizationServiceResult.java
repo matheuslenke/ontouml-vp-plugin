@@ -1,6 +1,7 @@
 package org.ontouml.vp.model;
 
-import org.ontouml.vp.model.ontouml.Project;
+
+import org.ontouml.ontouml4j.model.Project;
 
 import java.util.List;
 

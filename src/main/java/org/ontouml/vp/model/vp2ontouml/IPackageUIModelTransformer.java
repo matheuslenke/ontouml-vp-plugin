@@ -4,8 +4,9 @@ import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.shape.IBasePackageUIModel;
 import com.vp.plugin.diagram.shape.IModelUIModel;
 import com.vp.plugin.diagram.shape.IPackageUIModel;
-import org.ontouml.vp.model.ontouml.model.Package;
-import org.ontouml.vp.model.ontouml.view.PackageView;
+import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.view.PackageView;
+
 
 public class IPackageUIModelTransformer {
   public static PackageView transform(IDiagramElement sourceElement) {

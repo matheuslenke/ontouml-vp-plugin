@@ -2,8 +2,8 @@ package org.ontouml.vp.controllers;
 
 import com.vp.plugin.action.VPAction;
 import com.vp.plugin.action.VPActionController;
+import org.ontouml.ontouml4j.model.Project;
 import org.ontouml.vp.model.ModularizationServiceResult;
-import org.ontouml.vp.model.ontouml.Project;
 import org.ontouml.vp.model.ontouml2vp.IProjectLoader;
 import org.ontouml.vp.model.vp2ontouml.Uml2OntoumlTransformer;
 import org.ontouml.vp.utils.SimpleServiceWorker;

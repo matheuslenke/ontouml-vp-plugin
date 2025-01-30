@@ -2,16 +2,16 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.connector.IAssociationUIModel;
-import org.ontouml.vp.model.ontouml.model.Relation;
-import org.ontouml.vp.model.ontouml.view.RelationView;
+import org.ontouml.ontouml4j.model.Relation;
+import org.ontouml.ontouml4j.model.view.BinaryRelationView;
 
 public class IAssociationUIModelTransformer {
-  public static RelationView transform(IDiagramElement sourceElement) {
+  public static BinaryRelationView transform(IDiagramElement sourceElement) {
 
     if (!(sourceElement instanceof IAssociationUIModel)) return null;
 
     IAssociationUIModel source = (IAssociationUIModel) sourceElement;
-    RelationView target = new RelationView();
+    BinaryRelationView target = new BinaryRelationView();
 
     IDiagramElementTransformer.transform(source, target, Relation.class);
     IConnectorTransformer.transform(source, target);

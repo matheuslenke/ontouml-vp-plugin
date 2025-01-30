@@ -1,15 +1,11 @@
 package org.ontouml.vp.model.vp2ontouml;
 
-import static org.ontouml.vp.model.ontouml.deserialization.ReferenceResolver.resolveReferences;
-
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.OntoumlElement;
-import org.ontouml.vp.model.ontouml.Project;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.model.Package;
-import org.ontouml.vp.model.ontouml.view.Diagram;
+import org.ontouml.ontouml4j.model.*;
+import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.view.Diagram;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -29,38 +25,39 @@ public class IProjectTransformer {
     String id = sourceProject.getId();
     targetProject.setId(id);
 
-    Package root = targetProject.createModel(id + "_root", name);
-
-    List<ModelElement> targetElements =
-        getElementStream(sourceProject)
-            .map(IProjectTransformer::transformModelElement)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-
-    List<ModelElement> targetDatatypes =
-        getUsedDatatypes(sourceProject).stream()
-            .map(IProjectTransformer::transformModelElement)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-
-    targetElements.addAll(targetDatatypes);
-
-    targetElements.forEach(element -> resolveContainer(element, root));
-    resolveReferences(targetProject);
-
-    List<Diagram> diagrams = transformDiagrams(sourceProject, root);
-    targetProject.setDiagrams(diagrams);
+    // TODO
+//    Package root = targetProject.createModel(id + "_root", name);
+//
+//    List<ModelElement> targetElements =
+//        getElementStream(sourceProject)
+//            .map(IProjectTransformer::transformModelElement)
+//            .filter(Objects::nonNull)
+//            .collect(Collectors.toList());
+//
+//    List<ModelElement> targetDatatypes =
+//        getUsedDatatypes(sourceProject).stream()
+//            .map(IProjectTransformer::transformModelElement)
+//            .filter(Objects::nonNull)
+//            .collect(Collectors.toList());
+//
+//    targetElements.addAll(targetDatatypes);
+//
+//    targetElements.forEach(element -> resolveContainer(element, root));
+//    resolveReferences(targetProject);
+//
+//    List<Diagram> diagrams = transformDiagrams(sourceProject, root);
+//    targetProject.setDiagrams(diagrams);
 
     return targetProject;
   }
 
-  private static List<Diagram> transformDiagrams(IProject source, Package root) {
-    return Stream.of(source.toDiagramArray())
-        .filter(IClassDiagramUIModel.class::isInstance)
-        .map(diag -> IClassDiagramTransformer.transform(diag, root))
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
-  }
+//  private static List<Diagram> transformDiagrams(IProject source, Package root) {
+//    return Stream.of(source.toDiagramArray())
+//        .filter(IClassDiagramUIModel.class::isInstance)
+//        .map(diag -> IClassDiagramTransformer.transform(diag, root))
+//        .filter(Objects::nonNull)
+//        .collect(Collectors.toList());
+//  }
 
   private static Stream<IModelElement> getElementStream(IProject project) {
     final String[] elementTypes = {
@@ -97,7 +94,7 @@ public class IProjectTransformer {
             });
   }
 
-  private static void resolveContainer(ModelElement targetElement, Package root) {
+  private static void resolveContainer(PackageableElement targetElement, Package root) {
     Package targetContainer = getContainer(targetElement, root);
     targetContainer.addContent(targetElement);
   }

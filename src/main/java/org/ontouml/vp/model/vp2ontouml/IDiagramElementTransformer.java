@@ -2,20 +2,21 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.view.ElementView;
-import org.ontouml.vp.model.ontouml.view.Shape;
+import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.shape.Shape;
+import org.ontouml.ontouml4j.model.view.View;
 
 public class IDiagramElementTransformer {
 
   public static <T extends ModelElement, S extends Shape> void transform(
-      IDiagramElement source, ElementView<T, S> target, Class<T> type) {
+      IDiagramElement source, View target, Class<T> type) {
 
     String id = source.getId();
     target.setId(id);
 
     T modelElement = getModelElement(source, type);
-    target.setModelElement(modelElement);
+    // target.setModelElement(modelElement);
+    // TODO
   }
 
   private static <T extends ModelElement> T getModelElement(IDiagramElement view, Class<T> type) {

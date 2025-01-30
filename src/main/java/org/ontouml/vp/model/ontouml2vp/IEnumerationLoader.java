@@ -2,8 +2,8 @@ package org.ontouml.vp.model.ontouml2vp;
 
 import com.vp.plugin.model.IClass;
 import com.vp.plugin.model.IEnumerationLiteral;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.model.Literal;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.Literal;
 
 public class IEnumerationLoader {
 

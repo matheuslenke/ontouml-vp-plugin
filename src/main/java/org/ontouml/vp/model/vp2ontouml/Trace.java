@@ -1,7 +1,8 @@
 package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.OntoumlElement;
+import org.ontouml.ontouml4j.model.NamedElement;
+import org.ontouml.ontouml4j.model.OntoumlElement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,15 +53,25 @@ public class Trace {
   public String toString() {
     return map.entrySet().stream()
         .map(
-            x ->
-                x.getKey()
+            x -> {
+                if (x.getValue().getTarget() instanceof NamedElement) {
+                    return x.getKey()
                     + ": Source: "
                     + x.getValue().getSource().hashCode()
                     + " - Target: "
                     + x.getValue().getTarget().getType()
                     + " "
-                    + x.getValue().getTarget().getFirstName().orElse("Unnamed")
-                    + "\n")
+                    + ((NamedElement) x.getValue().getTarget()).getName()
+                    + "\n";
+                } else {
+                    return x.getKey()
+                    + ": Source: "
+                    + x.getValue().getSource().hashCode()
+                    + " - Target: "
+                    + x.getValue().getTarget().getType();
+                }
+            }
+            )
         .collect(Collectors.joining());
   }
 
@@ -68,10 +79,15 @@ public class Trace {
     Object source;
     OntoumlElement target;
 
-    public Correspondence(Object source, OntoumlElement target) {
+    public Correspondence(Object source, NamedElement target) {
       this.source = source;
       this.target = target;
     }
+
+    public Correspondence(Object source, OntoumlElement target) {
+        this.source = source;
+        this.target = target;
+      }
 
     public Object getSource() {
       return source;

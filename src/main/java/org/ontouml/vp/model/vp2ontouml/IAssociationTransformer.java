@@ -3,9 +3,10 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.model.IAssociation;
 import com.vp.plugin.model.IAssociationEnd;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.model.Property;
-import org.ontouml.vp.model.ontouml.model.Relation;
+
+import org.ontouml.ontouml4j.model.BinaryRelation;
+import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.Property;
 import java.util.List;
 
 public class IAssociationTransformer {
@@ -13,7 +14,7 @@ public class IAssociationTransformer {
     if (!(sourceElement instanceof IAssociation)) return null;
 
     IAssociation source = (IAssociation) sourceElement;
-    Relation target = new Relation();
+    BinaryRelation target = new BinaryRelation();
 
     IModelElementTransformer.transform(source, target);
     ITaggedValueTransformer.transform(source, target);
@@ -27,7 +28,7 @@ public class IAssociationTransformer {
 
     Property sourceEnd = IPropertyTransformer.transform(getSourceEnd(source));
     Property targetEnd = IPropertyTransformer.transform(getTargetEnd(source));
-    target.setProperties(List.of(sourceEnd, targetEnd));
+    target.setProperties(List.of(sourceEnd.getId(), targetEnd.getId()));
 
     return target;
   }

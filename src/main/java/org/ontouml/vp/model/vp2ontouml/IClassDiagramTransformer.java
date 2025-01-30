@@ -11,10 +11,11 @@ import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
 import com.vp.plugin.diagram.shape.IModelUIModel;
 import com.vp.plugin.diagram.shape.IPackageUIModel;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.model.ModelElement;
-import org.ontouml.vp.model.ontouml.model.Package;
-import org.ontouml.vp.model.ontouml.view.Diagram;
-import org.ontouml.vp.model.ontouml.view.ElementView;
+import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.view.Diagram;
+import org.ontouml.ontouml4j.model.view.View;
+
 import java.util.Arrays;
 
 public class IClassDiagramTransformer {
@@ -29,18 +30,20 @@ public class IClassDiagramTransformer {
     String id = source.getId();
     target.setId(id);
 
+
+    // TODO: Diagram should have name?
     String name = source.getName();
-    target.addName(name);
+    // target.addName(name);
 
     String description = source.getDocumentation();
-    target.addDescription(description);
+    // target.addDescription(description);
 
     ModelElement owner = getOwner(source, root);
     target.setOwner(owner);
 
-    Arrays.stream(source.toDiagramElementArray())
-        .map(e -> transfromIDiagramElement(e))
-        .forEach(e -> target.addElement(e));
+    // Arrays.stream(source.toDiagramElementArray())
+    //     .map(e -> transfromIDiagramElement(e))
+    //     .forEach(e -> target.addElement(e));
 
     return target;
   }
@@ -53,8 +56,8 @@ public class IClassDiagramTransformer {
     return ReferenceTransformer.transformStub(owner);
   }
 
-  public static ElementView<?, ?> transfromIDiagramElement(IDiagramElement source) {
-    ElementView<?, ?> target = null;
+  public static View transfromIDiagramElement(IDiagramElement source) {
+    View target = null;
 
     if (source instanceof IClassUIModel) {
       target = IClassUIModelTransformer.transform(source);

@@ -1,7 +1,7 @@
 package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.*;
-import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.ontouml4j.model.Class;
 import org.ontouml.vp.utils.StereotypesManager;
 
 public class IClassAdapter implements IAdapter {

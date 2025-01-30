@@ -3,16 +3,18 @@ package org.ontouml.vp.model.ontouml2vp;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.Classifier;
-import org.ontouml.vp.model.ontouml.model.Property;
-import org.ontouml.vp.model.ontouml.model.Relation;
+
+import org.ontouml.ontouml4j.model.BinaryRelation;
+import org.ontouml.ontouml4j.model.Classifier;
+import org.ontouml.ontouml4j.model.Property;
+import org.ontouml.ontouml4j.model.Relation;
 import org.ontouml.vp.utils.StereotypesManager;
 
 public class IAssociationLoader {
 
   static IProject vpProject = ApplicationManager.instance().getProjectManager().getProject();
 
-  public static IAssociation importElement(Relation fromRelation) {
+  public static IAssociation importElement(BinaryRelation fromRelation) {
     LoaderUtils.logElementCreation(fromRelation);
 
     IAssociation toRelation = getOrCreateAssociation(fromRelation);
@@ -68,14 +70,14 @@ public class IAssociationLoader {
     ITaggedValueLoader.loadTaggedValues(fromProperty, toProperty);
   }
 
-  private static void loadSource(Relation fromRelation, IAssociation toRelation) {
+  private static void loadSource(BinaryRelation fromRelation, IAssociation toRelation) {
     Classifier<?, ?> fromSource = fromRelation.getSource();
     IModelElement toSource = vpProject.getModelElementById(fromSource.getId());
 
     if (toSource != null) toRelation.setFrom(toSource);
   }
 
-  private static void loadTarget(Relation fromRelation, IAssociation toRelation) {
+  private static void loadTarget(BinaryRelation fromRelation, IAssociation toRelation) {
     Classifier<?, ?> fromTarget = fromRelation.getTarget();
     IModelElement toTarget = vpProject.getModelElementById(fromTarget.getId());
 

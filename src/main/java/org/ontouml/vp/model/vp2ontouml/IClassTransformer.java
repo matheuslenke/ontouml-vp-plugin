@@ -3,9 +3,9 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.model.IClass;
 import com.vp.plugin.model.IDataType;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.model.Literal;
-import org.ontouml.vp.model.ontouml.model.Property;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.Literal;
+import org.ontouml.ontouml4j.model.Property;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,22 +42,23 @@ public class IClassTransformer {
     target.setDerived(isDerived);
 
     Boolean isExtensional = source.isExtensional();
-    target.setExtensional(isExtensional);
+    // target.setIsExtensional(isExtensional);
 
     Boolean isPowertype = source.isPowertype();
     target.setPowertype(isPowertype);
 
     Integer order = source.getOrder();
-    target.setOrder(order);
+    // target.setOrder(order);
+    // TODO
 
     String[] restrictedTo = source.getRestrictedTo();
-    if (restrictedTo != null) target.setRestrictedTo(restrictedTo);
+    // if (restrictedTo != null) target.setRestrictedTo(restrictedTo);
 
     List<Property> attributes = transformAttributes(source);
-    target.setAttributes(attributes);
+    // target.setAttributes(attributes);
 
     List<Literal> literals = transformLiterals(source);
-    target.setLiterals(literals);
+    // target.setLiterals(literals);
 
     return target;
   }

@@ -5,15 +5,17 @@ import com.vp.plugin.model.IAssociationClass;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.Classifier;
-import org.ontouml.vp.model.ontouml.model.Relation;
+
+import org.ontouml.ontouml4j.model.BinaryRelation;
+import org.ontouml.ontouml4j.model.Classifier;
+import org.ontouml.ontouml4j.model.Relation;
 import org.ontouml.vp.utils.StereotypesManager;
 
 public class IAssociationClassLoader {
 
   static IProject vpProject = ApplicationManager.instance().getProjectManager().getProject();
 
-  public static IAssociationClass importElement(Relation fromRelation) {
+  public static IAssociationClass importElement(BinaryRelation fromRelation) {
     LoaderUtils.logElementCreation(fromRelation);
 
     IAssociationClass toRelation = getOrCreateAssociation(fromRelation);
@@ -42,7 +44,7 @@ public class IAssociationClassLoader {
     return toRelation;
   }
 
-  private static void loadSource(Relation fromRelation, IAssociationClass toRelation) {
+  private static void loadSource(BinaryRelation fromRelation, IAssociationClass toRelation) {
     Classifier<?, ?> fromSource = fromRelation.getSource();
     IModelElement toSource = vpProject.getModelElementById(fromSource.getId());
 
@@ -51,7 +53,7 @@ public class IAssociationClassLoader {
     }
   }
 
-  private static void loadTarget(Relation fromRelation, IAssociationClass toRelation) {
+  private static void loadTarget(BinaryRelation fromRelation, IAssociationClass toRelation) {
     Classifier<?, ?> fromTarget = fromRelation.getTarget();
     IModelElement toTarget = vpProject.getModelElementById(fromTarget.getId());
 

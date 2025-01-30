@@ -9,12 +9,10 @@ import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
 import com.vp.plugin.diagram.shape.IModelUIModel;
 import com.vp.plugin.diagram.shape.IPackageUIModel;
 import com.vp.plugin.model.*;
-import org.ontouml.vp.model.ontouml.model.*;
-import org.ontouml.vp.model.ontouml.model.*;
-import org.ontouml.vp.model.ontouml.view.*;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.model.Package;
-import org.ontouml.vp.model.ontouml.view.*;
+import org.ontouml.ontouml4j.model.*;
+import org.ontouml.ontouml4j.model.view.*;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.Package;
 
 public class ReferenceTransformer {
   public static ModelElement transformStub(IModelElement source) {
@@ -23,7 +21,7 @@ public class ReferenceTransformer {
     if (source instanceof IClass || source instanceof IDataType) {
       stub = new Class();
     } else if (source instanceof IAssociation || source instanceof IAssociationClass) {
-      stub = new Relation();
+      stub = new BinaryRelation();
     } else if (source instanceof IPackage || source instanceof IModel) {
       stub = new Package();
     } else if (source instanceof IAttribute || source instanceof IAssociationEnd) {
@@ -41,14 +39,14 @@ public class ReferenceTransformer {
     return stub;
   }
 
-  public static ElementView<?, ?> transformStub(IDiagramElement source) {
-    ElementView<?, ?> stub = null;
+  public static View transformStub(IDiagramElement source) {
+    View stub = null;
 
     if (source instanceof IClassUIModel) {
       stub = new ClassView();
     } else if (source instanceof IAssociationUIModel
         || source instanceof IAssociationClassUIModel) {
-      stub = new RelationView();
+      stub = new BinaryRelationView();
     } else if (source instanceof IPackageUIModel || source instanceof IModelUIModel) {
       stub = new PackageView();
     } else if (source instanceof IGeneralizationUIModel) {

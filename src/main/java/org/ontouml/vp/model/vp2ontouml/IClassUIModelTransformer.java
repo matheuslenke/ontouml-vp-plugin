@@ -2,8 +2,8 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.shape.IClassUIModel;
-import org.ontouml.vp.model.ontouml.model.Class;
-import org.ontouml.vp.model.ontouml.view.ClassView;
+import org.ontouml.ontouml4j.model.Class;
+import org.ontouml.ontouml4j.model.view.ClassView;
 
 public class IClassUIModelTransformer {
   public static ClassView transform(IDiagramElement sourceElement) {

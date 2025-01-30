@@ -2,7 +2,8 @@ package org.ontouml.vp.model.ontouml2vp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.ontouml.vp.model.ontouml.Project;
+import org.ontouml.ontouml4j.model.Project;
+
 import java.io.IOException;
 
 public class Ontouml2UmlLoader {

@@ -5,7 +5,7 @@ import com.vp.plugin.model.IDataType;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.vp.model.ontouml.model.Class;
+import org.ontouml.ontouml4j.model.Class;
 import java.util.Optional;
 
 public class IDataTypeLoader {

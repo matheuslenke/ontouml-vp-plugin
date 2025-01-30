@@ -1,7 +1,7 @@
 package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.*;
-import org.ontouml.vp.model.ontouml.model.Decoratable;
+import org.ontouml.ontouml4j.model.Decoratable;
 
 public class IStereotypeTransformer {
 

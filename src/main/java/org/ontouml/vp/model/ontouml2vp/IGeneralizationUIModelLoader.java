@@ -9,7 +9,7 @@ import com.vp.plugin.diagram.connector.IGeneralizationUIModel;
 import com.vp.plugin.diagram.shape.IClassUIModel;
 import com.vp.plugin.model.IGeneralization;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.vp.model.ontouml.view.GeneralizationView;
+import org.ontouml.ontouml4j.model.view.GeneralizationView;
 import java.awt.*;
 
 public class IGeneralizationUIModelLoader {
@@ -26,9 +26,9 @@ public class IGeneralizationUIModelLoader {
     }
 
     IClassUIModel vpSource =
-        LoaderUtils.getIDiagramElement(toDiagram, fromView.getSource(), IClassUIModel.class);
+        LoaderUtils.getIDiagramElement(toDiagram, fromView.getSourceView(), IClassUIModel.class);
     IClassUIModel vpTarget =
-        LoaderUtils.getIDiagramElement(toDiagram, fromView.getTarget(), IClassUIModel.class);
+        LoaderUtils.getIDiagramElement(toDiagram, fromView.getTargetView(), IClassUIModel.class);
 
     Point[] points = IConnectorUIModelLoader.loadPoints(fromView);
 

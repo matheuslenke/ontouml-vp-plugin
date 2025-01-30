@@ -7,8 +7,9 @@ import com.vp.plugin.diagram.IDiagramUIModel;
 import com.vp.plugin.diagram.shape.IClassUIModel;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
-import org.ontouml.vp.model.ontouml.view.Diagram;
 import java.util.stream.Stream;
+
+import org.ontouml.ontouml4j.model.view.Diagram;
 
 public class IClassDiagramLoader {
 
@@ -21,43 +22,44 @@ public class IClassDiagramLoader {
     IClassDiagramUIModel toDiagram = createIDiagram(fromDiagram);
     transferDiagramProperties(fromDiagram, toDiagram);
 
-    fromDiagram
-        .getAllClassViews()
-        .forEach(fromClassView -> IClassUIModelLoader.load(toDiagram, fromClassView));
+    // TODO
+    // fromDiagram
+    //     .getAllClassViews()
+    //     .forEach(fromClassView -> IClassUIModelLoader.load(toDiagram, fromClassView));
 
-    fromDiagram
-        .getAllPackageViews()
-        .forEach(fromView -> IPackageUIModelLoader.load(toDiagram, fromView));
+    // fromDiagram
+    //     .getAllPackageViews()
+    //     .forEach(fromView -> IPackageUIModelLoader.load(toDiagram, fromView));
 
-    fromDiagram.getAllRelationViews().stream()
-        .filter(view -> view.getModelElement() != null)
-        .filter(view -> view.getModelElement().holdsBetweenClasses())
-        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+    // fromDiagram.getAllRelationViews().stream()
+    //     .filter(view -> view.getModelElement() != null)
+    //     .filter(view -> view.getModelElement().holdsBetweenClasses())
+    //     .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
 
-    fromDiagram.getAllRelationViews().stream()
-        .filter(view -> view.getModelElement() != null)
-        .filter(view -> !view.getModelElement().holdsBetweenClasses())
-        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+    // fromDiagram.getAllRelationViews().stream()
+    //     .filter(view -> view.getModelElement() != null)
+    //     .filter(view -> !view.getModelElement().holdsBetweenClasses())
+    //     .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
 
-    fromDiagram.getAllRelationViews().stream()
-        .filter(view -> view.getModelElement() != null)
-        .filter(view -> view.getModelElement().holdsBetweenClassAndRelation())
-        .forEach(
-            fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
+    // fromDiagram.getAllRelationViews().stream()
+    //     .filter(view -> view.getModelElement() != null)
+    //     .filter(view -> view.getModelElement().holdsBetweenClassAndRelation())
+    //     .forEach(
+    //         fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 
-    fromDiagram.getAllRelationViews().stream()
-        .filter(view -> view.getModelElement() != null)
-        .filter(view -> !view.getModelElement().holdsBetweenClassAndRelation())
-        .forEach(
-            fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
+    // fromDiagram.getAllRelationViews().stream()
+    //     .filter(view -> view.getModelElement() != null)
+    //     .filter(view -> !view.getModelElement().holdsBetweenClassAndRelation())
+    //     .forEach(
+    //         fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 
-    fromDiagram
-        .getAllGeneralizationViews()
-        .forEach(fromGenView -> IGeneralizationUIModelLoader.load(toDiagram, fromGenView));
+    // fromDiagram
+    //     .getAllGeneralizationViews()
+    //     .forEach(fromGenView -> IGeneralizationUIModelLoader.load(toDiagram, fromGenView));
 
-    fromDiagram
-        .getAllGeneralizationSetViews()
-        .forEach(fromGsView -> IGeneralizationSetUIModelLoader.load(toDiagram, fromGsView));
+    // fromDiagram
+    //     .getAllGeneralizationSetViews()
+    //     .forEach(fromGsView -> IGeneralizationSetUIModelLoader.load(toDiagram, fromGsView));
 
     // For information about auto layout for VP diagrams see the JavaDoc at
     // https://www.visual-paradigm.com/support/documents/pluginjavadoc/index.html?com/vp/plugin/diagram/LayoutOption.html

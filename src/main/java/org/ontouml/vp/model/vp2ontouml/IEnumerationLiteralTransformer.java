@@ -1,7 +1,7 @@
 package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.IEnumerationLiteral;
-import org.ontouml.vp.model.ontouml.model.Literal;
+import org.ontouml.ontouml4j.model.Literal;
 
 public class IEnumerationLiteralTransformer {
 

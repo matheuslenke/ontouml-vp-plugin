@@ -4,7 +4,7 @@ import com.vp.plugin.model.IAssociationEnd;
 import com.vp.plugin.model.IAttribute;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IMultiplicity;
-import org.ontouml.vp.model.ontouml.model.AggregationKind;
+import org.ontouml.ontouml4j.model.utils.AggregationKind;
 import java.util.Iterator;
 
 public class IPropertyAdapter implements IAdapter {
