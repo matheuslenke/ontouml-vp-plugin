@@ -13,4 +13,16 @@
 			<outputDirectory>./</outputDirectory>
 		</fileSet>
 	</fileSets>
+    <!-- This is added to make the package process add to the zip file the necessary libraries.
+    This process is useful when distributing the .zip file for users to install the plugin.-->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+			<excludes>
+				<exclude>com.visualparadigm.app:*:*</exclude>
+                <exclude>org.ontouml.vp:ontouml-vp-plugin:*</exclude>
+			</excludes>
+		</dependencySet>
+	</dependencySets>
 </assembly>

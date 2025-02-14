@@ -37,21 +37,22 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <ontouml4j.path>lib/ontouml4j-0.1.1.jar</ontouml4j.path>
         <visualparadigm.app.dir>
-           /Applications/Visual Paradigm.app/Contents/Resources/app
+            /Applications/Visual Paradigm.app/Contents/Resources/app
         </visualparadigm.app.dir>
-         <visualparadigm.plugin.dir>
-             /Users/matheuslenke/Library/Application Support/VisualParadigm/plugins
-         </visualparadigm.plugin.dir>
+        <visualparadigm.plugin.dir>
+            /Users/matheuslenke/Library/Application Support/VisualParadigm/plugins
+        </visualparadigm.plugin.dir>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.ontouml.ontouml4j</groupId>
+            <groupId>org.ontouml</groupId>
             <artifactId>ontouml4j</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}${file.separator}..${file.separator}ontouml4j${file.separator}target${file.separator}ontouml4j-0.1.0.jar</systemPath>
+            <systemPath>${project.build.directory}/../../ontouml4j/target/ontouml4j-0.1.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -182,8 +183,22 @@
     </dependencies>
 
     <build>
-
         <plugins>
+           <plugin>
+               <artifactId>maven-dependency-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <phase>install</phase>
+                       <goals>
+                           <goal>copy-dependencies</goal>
+                       </goals>
+                       <configuration>
+                           <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                           <useSubDirectoryPerArtifact>true</useSubDirectoryPerArtifact>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -206,14 +221,12 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
                         <descriptor>assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>assemble-vp-plugin</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -238,6 +251,23 @@
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}/classes</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                   <execution>
+                        <id>copy-libs-vp-plugin</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${visualparadigm.plugin.dir}/${project.artifactId}-${project.version}${file.separator}lib
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/lib/ontouml4j-0.1.1-jar</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -279,6 +309,5 @@
                 <version>2.22.2</version>
             </plugin>
         </plugins>
-
     </build>
 </project>
