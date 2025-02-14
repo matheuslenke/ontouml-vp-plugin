@@ -5,10 +5,11 @@ import com.vp.plugin.model.IModelElement;
 import org.ontouml.ontouml4j.model.OntoumlElement;
 import org.ontouml.ontouml4j.model.Classifier;
 import org.ontouml.ontouml4j.model.Generalization;
+import org.ontouml.ontouml4j.model.Project;
 
 public class IGeneralizationTransformer {
 
-  public static Generalization transform(IModelElement sourceElement) {
+  public static Generalization transform(IModelElement sourceElement, Project project) {
     if (!(sourceElement instanceof IGeneralization)) return null;
 
     IGeneralization source = (IGeneralization) sourceElement;
@@ -22,6 +23,8 @@ public class IGeneralizationTransformer {
 
     Classifier<?, ?> specific = transformSpecific(source);
     target.setSpecific(specific);
+
+    project.addGeneralization(target);
 
     return target;
   }

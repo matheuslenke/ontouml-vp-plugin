@@ -2,6 +2,7 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.IModelElement;
 
+import org.ontouml.ontouml4j.model.MultilingualText;
 import org.ontouml.ontouml4j.model.NamedElement;
 
 public class IModelElementTransformer {
@@ -11,9 +12,11 @@ public class IModelElementTransformer {
     target.setId(id);
 
     String name = source.getName();
-    target.addName(name);
+    if (name != null) {
+      target.addName(name);
+    }
 
-    String description = source.getDescription();
-    target.addDescription(description != null && description.isEmpty() ? null : description);
+    MultilingualText description = new MultilingualText(source.getDescription());
+    target.setDescription(description.isEmpty() ? null : description);
   }
 }

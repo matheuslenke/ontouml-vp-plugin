@@ -12,15 +12,7 @@ public class Uml2OntoumlTransformer {
 
   public static String transformAndSerialize() throws IOException {
     final IProject source = ApplicationManager.instance().getProjectManager().getProject();
-
-    Project project = new Project();
-    project.setId("my_project");
-
-    System.out.println("teste");
-
-//    Project target = IProjectTransformer.transform(source);
-//    ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-//    return mapper.writeValueAsString(target);
-    return project.serializeAsString();
+    Project target = IProjectTransformer.transform(source);
+    return target.serializeAsString();
   }
 }

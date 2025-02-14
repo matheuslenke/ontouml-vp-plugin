@@ -2,13 +2,10 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.IAssociationClass;
 import com.vp.plugin.model.IModelElement;
-import org.ontouml.ontouml4j.model.OntoumlElement;
-import org.ontouml.ontouml4j.model.BinaryRelation;
-import org.ontouml.ontouml4j.model.Classifier;
-import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.*;
 
 public class IAssociationClassTransformer {
-  public static ModelElement transform(IModelElement sourceElement) {
+  public static ModelElement transform(IModelElement sourceElement, Project project) {
     if (!(sourceElement instanceof IAssociationClass)) return null;
 
     IAssociationClass source = (IAssociationClass) sourceElement;
@@ -24,6 +21,8 @@ public class IAssociationClassTransformer {
 
     target.setDerived(true);
     target.setAbstract(false);
+
+    project.addRelation(target);
 
     return target;
   }

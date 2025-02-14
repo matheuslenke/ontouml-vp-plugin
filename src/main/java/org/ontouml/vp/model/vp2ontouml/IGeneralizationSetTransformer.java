@@ -4,10 +4,9 @@ import com.vp.plugin.model.IClass;
 import com.vp.plugin.model.IGeneralization;
 import com.vp.plugin.model.IGeneralizationSet;
 import com.vp.plugin.model.IModelElement;
+import org.ontouml.ontouml4j.model.*;
 import org.ontouml.ontouml4j.model.Class;
-import org.ontouml.ontouml4j.model.Generalization;
-import org.ontouml.ontouml4j.model.GeneralizationSet;
-import org.ontouml.ontouml4j.model.ModelElement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +14,7 @@ import java.util.stream.Stream;
 
 public class IGeneralizationSetTransformer {
 
-  public static ModelElement transform(IModelElement sourceElement) {
+  public static ModelElement transform(IModelElement sourceElement, Project project) {
     if (!(sourceElement instanceof IGeneralizationSet)) {
       return null;
     }
@@ -37,7 +36,10 @@ public class IGeneralizationSetTransformer {
 
     List<Generalization> generalizations = transformGeneralizations(source);
     target.setGeneralizations(generalizations);
+    generalizations.forEach(project::addGeneralization);
+    generalizations.forEach(generalization -> {generalization.setProjectContainer(project);});
 
+    project.addGeneralizationSet(target);
     return target;
   }
 

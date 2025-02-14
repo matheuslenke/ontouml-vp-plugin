@@ -1,17 +1,15 @@
 package org.ontouml.vp.model.vp2ontouml;
 
-import com.vp.plugin.diagram.IClassDiagramUIModel;
+import static org.ontouml.ontouml4j.deserialization.ReferenceResolver.resolveReferences;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
-import org.ontouml.ontouml4j.model.*;
-import org.ontouml.ontouml4j.model.Package;
-import org.ontouml.ontouml4j.model.view.Diagram;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.ontouml.ontouml4j.model.*;
+import org.ontouml.ontouml4j.model.Package;
 
 public class IProjectTransformer {
 
@@ -20,44 +18,54 @@ public class IProjectTransformer {
     Trace.getInstance().put(sourceProject.getId(), sourceProject, targetProject);
 
     String name = sourceProject.getName();
-    targetProject.addName(sourceProject.getName());
+    targetProject.addName(name);
 
     String id = sourceProject.getId();
     targetProject.setId(id);
 
-    // TODO
-//    Package root = targetProject.createModel(id + "_root", name);
-//
-//    List<ModelElement> targetElements =
-//        getElementStream(sourceProject)
-//            .map(IProjectTransformer::transformModelElement)
-//            .filter(Objects::nonNull)
-//            .collect(Collectors.toList());
-//
-//    List<ModelElement> targetDatatypes =
-//        getUsedDatatypes(sourceProject).stream()
-//            .map(IProjectTransformer::transformModelElement)
-//            .filter(Objects::nonNull)
-//            .collect(Collectors.toList());
-//
-//    targetElements.addAll(targetDatatypes);
-//
-//    targetElements.forEach(element -> resolveContainer(element, root));
-//    resolveReferences(targetProject);
-//
-//    List<Diagram> diagrams = transformDiagrams(sourceProject, root);
-//    targetProject.setDiagrams(diagrams);
+    // Missing: description, alternativeNames, creators
 
+    // TODO
+    //    Package root = targetProject.createModel(id + "_root", name);
+    //
+    List<ModelElement> targetElements =
+        getElementStream(sourceProject)
+            .map((IModelElement source) -> transformModelElement(source, targetProject))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+
+    // Setting the root package to the first package in the list.
+    Optional<Package> root = targetProject.getPackages().values().stream().findFirst();
+    root.ifPresent(targetProject::setRoot);
+
+    // This part of the code is responsible for getting the referenced datatypes in the project
+    List<ModelElement> targetDatatypes =
+        getUsedDatatypes(sourceProject).stream()
+            .map((IModelElement source) -> transformModelElement(source, targetProject))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    targetElements.addAll(targetDatatypes);
+
+//    targetElements.forEach(element -> resolveContainer(element, root));
+    resolveReferences(targetProject);
+    //
+    //    List<Diagram> diagrams = transformDiagrams(sourceProject, root);
+    //    targetProject.setDiagrams(diagrams);
+    try {
+      System.out.println(targetProject.serializeAsString());
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
     return targetProject;
   }
 
-//  private static List<Diagram> transformDiagrams(IProject source, Package root) {
-//    return Stream.of(source.toDiagramArray())
-//        .filter(IClassDiagramUIModel.class::isInstance)
-//        .map(diag -> IClassDiagramTransformer.transform(diag, root))
-//        .filter(Objects::nonNull)
-//        .collect(Collectors.toList());
-//  }
+  //  private static List<Diagram> transformDiagrams(IProject source, Package root) {
+  //    return Stream.of(source.toDiagramArray())
+  //        .filter(IClassDiagramUIModel.class::isInstance)
+  //        .map(diag -> IClassDiagramTransformer.transform(diag, root))
+  //        .filter(Objects::nonNull)
+  //        .collect(Collectors.toList());
+  //  }
 
   private static Stream<IModelElement> getElementStream(IProject project) {
     final String[] elementTypes = {
@@ -125,25 +133,28 @@ public class IProjectTransformer {
     return null;
   }
 
-  public static ModelElement transformModelElement(IModelElement source) {
+  public static ModelElement transformModelElement(IModelElement source, Project project) {
     ModelElement target = null;
 
     if (source instanceof IClass || source instanceof IDataType) {
-      target = IClassTransformer.transform(source);
+      target = IClassTransformer.transform(source, project);
     } else if (source instanceof IAssociation) {
-      target = IAssociationTransformer.transform(source);
+      target = IAssociationTransformer.transform(source, project);
     } else if (source instanceof IAssociationClass) {
-      target = IAssociationClassTransformer.transform(source);
+      target = IAssociationClassTransformer.transform(source, project);
     } else if (source instanceof IPackage || source instanceof IModel) {
-      target = IPackageTransformer.transform(source);
+      target = IPackageTransformer.transform(source, project);
     } else if (source instanceof IAttribute || source instanceof IAssociationEnd) {
-      target = IPropertyTransformer.transform(source);
+      target = IPropertyTransformer.transform(source, project);
     } else if (source instanceof IGeneralization) {
-      target = IGeneralizationTransformer.transform(source);
+      target = IGeneralizationTransformer.transform(source, project);
     } else if (source instanceof IGeneralizationSet) {
-      target = IGeneralizationSetTransformer.transform(source);
+      target = IGeneralizationSetTransformer.transform(source, project);
     }
 
+    if (target != null) {
+      target.setProjectContainer(project);
+    }
     Trace.getInstance().put(source.getId(), source, target);
 
     return target;

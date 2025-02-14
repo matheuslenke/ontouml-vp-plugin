@@ -6,11 +6,12 @@ import com.vp.plugin.model.IModelElement;
 
 import org.ontouml.ontouml4j.model.BinaryRelation;
 import org.ontouml.ontouml4j.model.ModelElement;
+import org.ontouml.ontouml4j.model.Project;
 import org.ontouml.ontouml4j.model.Property;
 import java.util.List;
 
 public class IAssociationTransformer {
-  public static ModelElement transform(IModelElement sourceElement) {
+  public static ModelElement transform(IModelElement sourceElement, Project project) {
     if (!(sourceElement instanceof IAssociation)) return null;
 
     IAssociation source = (IAssociation) sourceElement;
@@ -26,9 +27,13 @@ public class IAssociationTransformer {
     boolean isAbstract = source.isAbstract();
     target.setAbstract(isAbstract);
 
-    Property sourceEnd = IPropertyTransformer.transform(getSourceEnd(source));
-    Property targetEnd = IPropertyTransformer.transform(getTargetEnd(source));
+    Property sourceEnd = IPropertyTransformer.transform(getSourceEnd(source), project);
+    Property targetEnd = IPropertyTransformer.transform(getTargetEnd(source), project);
     target.setProperties(List.of(sourceEnd.getId(), targetEnd.getId()));
+
+    project.addRelation(target);
+    project.addProperty(sourceEnd);
+    project.addProperty(targetEnd);
 
     return target;
   }

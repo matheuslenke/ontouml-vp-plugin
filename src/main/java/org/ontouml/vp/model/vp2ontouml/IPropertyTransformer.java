@@ -4,6 +4,7 @@ import com.vp.plugin.model.IAssociationEnd;
 import com.vp.plugin.model.IAttribute;
 import com.vp.plugin.model.IModelElement;
 import org.ontouml.ontouml4j.model.OntoumlElement;
+import org.ontouml.ontouml4j.model.Project;
 import org.ontouml.ontouml4j.model.utils.AggregationKind;
 import org.ontouml.ontouml4j.model.Classifier;
 import org.ontouml.ontouml4j.model.Property;
@@ -13,19 +14,20 @@ import java.util.List;
 
 public class IPropertyTransformer {
 
-  public static Property transform(IModelElement source) {
+  public static Property transform(IModelElement source, Project project) {
     if (source instanceof IAttribute) {
-      return transform(new IPropertyAdapter((IAttribute) source));
+      return transform(new IPropertyAdapter((IAttribute) source), project);
     }
 
     if (source instanceof IAssociationEnd) {
-      return transform(new IPropertyAdapter((IAssociationEnd) source));
+
+      return transform(new IPropertyAdapter((IAssociationEnd) source), project);
     }
 
     return null;
   }
 
-  public static Property transform(IPropertyAdapter source) {
+  public static Property transform(IPropertyAdapter source, Project project) {
     if (source.isEmpty()) {
       return null;
     }
@@ -46,7 +48,11 @@ public class IPropertyTransformer {
     target.setOrdered(isOrdered);
 
     String cardinality = source.getMultiplicity();
-    target.setCardinality(cardinality);
+    if (cardinality == null) {
+      target.setCardinality("0..*");
+    } else {
+      target.setCardinality(cardinality);
+    }
 
     AggregationKind aggregationKind = transformAggregationKind(source);
     target.setAggregationKind(aggregationKind);

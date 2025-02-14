@@ -192,7 +192,7 @@ public class JsonImportAndExportController implements VPActionController {
       return List.of(MESSAGE_MODEL_EXPORT_INVALID_FILE_ERROR);
     } catch (Exception e) {
       e.printStackTrace();
-      ViewManagerUtils.log(MESSAGE_MODEL_EXPORT_UNEXPECTED_ERROR);
+      ViewManagerUtils.log(e.getMessage());
 
       return List.of(MESSAGE_MODEL_EXPORT_UNEXPECTED_ERROR);
     }
