@@ -3,6 +3,7 @@ package org.ontouml.vp.model.vp2ontouml;
 import static org.ontouml.ontouml4j.deserialization.ReferenceResolver.resolveReferences;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vp.plugin.diagram.shape.INoteUIModel;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
 import java.util.*;
@@ -76,6 +77,8 @@ public class IProjectTransformer {
       IModelElementFactory.MODEL_TYPE_GENERALIZATION_SET,
       IModelElementFactory.MODEL_TYPE_ASSOCIATION,
       IModelElementFactory.MODEL_TYPE_ASSOCIATION_CLASS,
+      IModelElementFactory.MODEL_TYPE_NOTE,
+      IModelElementFactory.MODEL_TYPE_ANCHOR,
     };
 
     IModelElement[] sourceContents = project.toAllLevelModelElementArray(elementTypes);
@@ -150,6 +153,8 @@ public class IProjectTransformer {
       target = IGeneralizationTransformer.transform(source, project);
     } else if (source instanceof IGeneralizationSet) {
       target = IGeneralizationSetTransformer.transform(source, project);
+    } else if (source instanceof INOTE) {
+      target = INoteTransformer.transform(source, project);
     }
 
     if (target != null) {
