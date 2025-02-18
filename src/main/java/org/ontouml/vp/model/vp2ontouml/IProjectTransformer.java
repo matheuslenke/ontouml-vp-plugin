@@ -85,24 +85,25 @@ public class IProjectTransformer {
 
     // Relationships may connect other types of model elements and these need to be filtered out
     // the code also filters out relationships connected to null
-    return Stream.of(sourceContents)
-        .filter(
-            element -> {
-              if (!(element instanceof IRelationship)) {
-                return true;
-              }
-
-              var source = ((IRelationship) element).getFrom();
-              var target = ((IRelationship) element).getTo();
-              var sourceType = source != null ? source.getModelType() : null;
-              var targetType = target != null ? target.getModelType() : null;
-              var desiredTypes =
-                  Arrays.asList(
-                      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
-                      IModelElementFactory.MODEL_TYPE_CLASS);
-
-              return desiredTypes.contains(sourceType) && desiredTypes.contains(targetType);
-            });
+    return Stream.of(sourceContents);
+//        .filter(
+//            element -> {
+//              if (!(element instanceof IRelationship)) {
+//                return true;
+//              }
+//
+//              var source = ((IRelationship) element).getFrom();
+//              var target = ((IRelationship) element).getTo();
+//              var sourceType = source != null ? source.getModelType() : null;
+//              var targetType = target != null ? target.getModelType() : null;
+//              var desiredTypes =
+//                  Arrays.asList(
+//                      IModelElementFactory.MODEL_TYPE_NOTE,
+//                      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
+//                      IModelElementFactory.MODEL_TYPE_CLASS);
+//
+//              return desiredTypes.contains(sourceType) && desiredTypes.contains(targetType);
+//            });
   }
 
   private static void resolveContainer(PackageableElement targetElement, Package root) {
@@ -155,6 +156,8 @@ public class IProjectTransformer {
       target = IGeneralizationSetTransformer.transform(source, project);
     } else if (source instanceof INOTE) {
       target = INoteTransformer.transform(source, project);
+    } else if (source instanceof ISimpleRelationship) {
+      target = IAnchorTransformer.transform(source, project);
     }
 
     if (target != null) {

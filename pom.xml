@@ -52,7 +52,7 @@
             <artifactId>ontouml4j</artifactId>
             <version>0.1.1</version>
             <scope>system</scope>
-            <systemPath>${project.build.directory}/../../ontouml4j/target/ontouml4j-0.1.1.jar</systemPath>
+            <systemPath>/Users/matheuslenke/dev/work/ontouml4j/target/ontouml4j-0.1.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
