@@ -3,7 +3,7 @@ package org.ontouml.vp.model.vp2ontouml;
 import static org.ontouml.ontouml4j.deserialization.ReferenceResolver.resolveReferences;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.vp.plugin.diagram.shape.INoteUIModel;
+import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
 import java.util.*;
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.ontouml.ontouml4j.model.*;
 import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.view.Diagram;
 
 public class IProjectTransformer {
 
@@ -47,11 +48,13 @@ public class IProjectTransformer {
             .collect(Collectors.toList());
     targetElements.addAll(targetDatatypes);
 
-//    targetElements.forEach(element -> resolveContainer(element, root));
+    //    targetElements.forEach(element -> resolveContainer(element, root));
     resolveReferences(targetProject);
     //
-    //    List<Diagram> diagrams = transformDiagrams(sourceProject, root);
-    //    targetProject.setDiagrams(diagrams);
+    List<Diagram> diagrams = transformDiagrams(sourceProject, targetProject);
+
+    diagrams.forEach(targetProject::addElement);
+
     try {
       System.out.println(targetProject.serializeAsString());
     } catch (JsonProcessingException e) {
@@ -60,13 +63,13 @@ public class IProjectTransformer {
     return targetProject;
   }
 
-  //  private static List<Diagram> transformDiagrams(IProject source, Package root) {
-  //    return Stream.of(source.toDiagramArray())
-  //        .filter(IClassDiagramUIModel.class::isInstance)
-  //        .map(diag -> IClassDiagramTransformer.transform(diag, root))
-  //        .filter(Objects::nonNull)
-  //        .collect(Collectors.toList());
-  //  }
+  private static List<Diagram> transformDiagrams(IProject source, Project project) {
+    return Stream.of(source.toDiagramArray())
+        .filter(IClassDiagramUIModel.class::isInstance)
+        .map(diag -> IClassDiagramTransformer.transform(diag, project))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+  }
 
   private static Stream<IModelElement> getElementStream(IProject project) {
     final String[] elementTypes = {
@@ -85,25 +88,25 @@ public class IProjectTransformer {
 
     // Relationships may connect other types of model elements and these need to be filtered out
     // the code also filters out relationships connected to null
-    return Stream.of(sourceContents);
-//        .filter(
-//            element -> {
-//              if (!(element instanceof IRelationship)) {
-//                return true;
-//              }
-//
-//              var source = ((IRelationship) element).getFrom();
-//              var target = ((IRelationship) element).getTo();
-//              var sourceType = source != null ? source.getModelType() : null;
-//              var targetType = target != null ? target.getModelType() : null;
-//              var desiredTypes =
-//                  Arrays.asList(
-//                      IModelElementFactory.MODEL_TYPE_NOTE,
-//                      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
-//                      IModelElementFactory.MODEL_TYPE_CLASS);
-//
-//              return desiredTypes.contains(sourceType) && desiredTypes.contains(targetType);
-//            });
+    return Stream.of(sourceContents)
+        .filter(
+            element -> {
+              if (!(element instanceof IRelationship)) {
+                return true;
+              }
+
+              var source = ((IRelationship) element).getFrom();
+              var target = ((IRelationship) element).getTo();
+              var sourceType = source != null ? source.getModelType() : null;
+              var targetType = target != null ? target.getModelType() : null;
+              var desiredTypes =
+                  Arrays.asList(
+                      IModelElementFactory.MODEL_TYPE_NOTE,
+                      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
+                      IModelElementFactory.MODEL_TYPE_CLASS);
+
+              return desiredTypes.contains(sourceType) && desiredTypes.contains(targetType);
+            });
   }
 
   private static void resolveContainer(PackageableElement targetElement, Package root) {
@@ -180,7 +183,7 @@ public class IProjectTransformer {
 
   public static Set<IDataType> getUsedDatatypes(IProject project) {
     return getAllAttributes(project).stream()
-        .map(attr -> attr.getType())
+        .map(IAttribute::getType)
         .filter(IDataType.class::isInstance)
         .map(IDataType.class::cast)
         .collect(Collectors.toSet());

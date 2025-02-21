@@ -11,39 +11,41 @@ import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
 import com.vp.plugin.diagram.shape.IModelUIModel;
 import com.vp.plugin.diagram.shape.IPackageUIModel;
 import com.vp.plugin.model.IModelElement;
+import java.util.Arrays;
 import org.ontouml.ontouml4j.model.ModelElement;
 import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.Project;
 import org.ontouml.ontouml4j.model.view.Diagram;
 import org.ontouml.ontouml4j.model.view.View;
 
-import java.util.Arrays;
-
 public class IClassDiagramTransformer {
 
-  public static Diagram transform(IDiagramUIModel sourceElement, Package root) {
+  public static Diagram transform(IDiagramUIModel sourceElement, Project project) {
     if (!(sourceElement instanceof IClassDiagramUIModel)) return null;
 
     IClassDiagramUIModel source = (IClassDiagramUIModel) sourceElement;
 
     Diagram target = new Diagram();
+    target.setProjectContainer(project);
 
     String id = source.getId();
     target.setId(id);
 
-
     // TODO: Diagram should have name?
     String name = source.getName();
-    // target.addName(name);
+    target.addName(name);
 
     String description = source.getDocumentation();
-    // target.addDescription(description);
+    if (description != null) {
+      target.addDescription(description);
+    }
 
-    ModelElement owner = getOwner(source, root);
+    ModelElement owner = getOwner(source, project.getRoot());
     target.setOwner(owner);
 
-    // Arrays.stream(source.toDiagramElementArray())
-    //     .map(e -> transfromIDiagramElement(e))
-    //     .forEach(e -> target.addElement(e));
+    Arrays.stream(source.toDiagramElementArray())
+        .map(item -> transfromIDiagramElement(item, target))
+        .forEach(target::addElement);
 
     return target;
   }
@@ -56,21 +58,21 @@ public class IClassDiagramTransformer {
     return ReferenceTransformer.transformStub(owner);
   }
 
-  public static View transfromIDiagramElement(IDiagramElement source) {
+  public static View transfromIDiagramElement(IDiagramElement source, Diagram diagram) {
     View target = null;
 
     if (source instanceof IClassUIModel) {
-      target = IClassUIModelTransformer.transform(source);
+      target = IClassUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IAssociationUIModel) {
-      target = IAssociationUIModelTransformer.transform(source);
+      target = IAssociationUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IAssociationClassUIModel) {
-      target = IAssociationClassUIModelTransformer.transform(source);
+      target = IAssociationClassUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IGeneralizationUIModel) {
-      target = IGeneralizationUIModelTransformer.transform(source);
+      target = IGeneralizationUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IGeneralizationSetUIModel) {
-      target = IGeneralizationSetUIModelTransformer.transform(source);
+      target = IGeneralizationSetUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IPackageUIModel || source instanceof IModelUIModel) {
-      target = IPackageUIModelTransformer.transform(source);
+      target = IPackageUIModelTransformer.transform(source, diagram);
     }
 
     Trace.getInstance().put(source.getId(), source, target);

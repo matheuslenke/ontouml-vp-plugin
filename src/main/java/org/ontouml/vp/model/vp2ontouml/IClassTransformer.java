@@ -53,8 +53,10 @@ public class IClassTransformer {
     project.addClass(target);
 
     String[] restrictedTo = source.getRestrictedTo();
-    List<Optional<Nature>> natures = Stream.of(restrictedTo).map(Nature::findByName).collect(Collectors.toList());
-    target.setRestrictedToNatures(natures.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+    if (restrictedTo != null) {
+      List<Optional<Nature>> natures = Stream.of(restrictedTo).map(Nature::findByName).collect(Collectors.toList());
+      target.setRestrictedToNatures(natures.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+    }
 
     List<Property> attributes = transformAttributes(source, project);
     attributes.forEach(target::addAttribute);

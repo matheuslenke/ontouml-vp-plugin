@@ -5,11 +5,12 @@ import com.vp.plugin.diagram.shape.IBasePackageUIModel;
 import com.vp.plugin.diagram.shape.IModelUIModel;
 import com.vp.plugin.diagram.shape.IPackageUIModel;
 import org.ontouml.ontouml4j.model.Package;
+import org.ontouml.ontouml4j.model.view.Diagram;
 import org.ontouml.ontouml4j.model.view.PackageView;
 
 
 public class IPackageUIModelTransformer {
-  public static PackageView transform(IDiagramElement sourceElement) {
+  public static PackageView transform(IDiagramElement sourceElement, Diagram diagram) {
     if (!(sourceElement instanceof IPackageUIModel) && !(sourceElement instanceof IModelUIModel))
       return null;
 
@@ -18,6 +19,7 @@ public class IPackageUIModelTransformer {
 
     IDiagramElementTransformer.transform(source, target, Package.class);
     IShapeTransformer.transform(source, target);
+    diagram.addElement(target);
 
     return target;
   }
