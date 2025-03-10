@@ -17,7 +17,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * Implementation toolbar button action responsible for exporting OntoUML model in JSON (according
+ * Implementation toolbar button action responsible for exporting OntoUML model
+ * in JSON (according
  * to OntoUML Schema).
  *
  * @author Claudenir Fonseca
@@ -31,18 +32,13 @@ public class JsonImportAndExportController implements VPActionController {
 
   private static final String FILE_FORMAT = ".json";
 
-  private static final String MESSAGE_IMPORT_WARNING =
-      "Warning: this action may override elements in your project. Do you wish to continue?";
+  private static final String MESSAGE_IMPORT_WARNING = "Warning: this action may override elements in your project. Do you wish to continue?";
   private static final String MESSAGE_MODEL_EXPORTED = "Model exported successfully.";
   private static final String MESSAGE_MODEL_IMPORTED = "Model imported successfully.";
-  private static final String MESSAGE_MODEL_EXPORT_INVALID_FILE_ERROR =
-      "Unable to export: invalid file.";
-  private static final String MESSAGE_MODEL_IMPORT_INVALID_FILE_ERROR =
-      "Unable to import: invalid file.";
-  private static final String MESSAGE_MODEL_EXPORT_UNEXPECTED_ERROR =
-      "Unable to export: unexpected error.";
-  private static final String MESSAGE_MODEL_IMPORT_UNEXPECTED_ERROR =
-      "Unable to import: unexpected error.";
+  private static final String MESSAGE_MODEL_EXPORT_INVALID_FILE_ERROR = "Unable to export: invalid file.";
+  private static final String MESSAGE_MODEL_IMPORT_INVALID_FILE_ERROR = "Unable to import: invalid file.";
+  private static final String MESSAGE_MODEL_EXPORT_UNEXPECTED_ERROR = "Unable to export: unexpected error.";
+  private static final String MESSAGE_MODEL_IMPORT_UNEXPECTED_ERROR = "Unable to import: unexpected error.";
 
   private Configurations configs;
   private ProjectConfigurations projectConfigurations;
@@ -58,7 +54,8 @@ public class JsonImportAndExportController implements VPActionController {
 
     if (shouldImport()) {
       boolean shouldProceed = ViewManagerUtils.warningDialog(MESSAGE_IMPORT_WARNING);
-      if (!shouldProceed) return;
+      if (!shouldProceed)
+        return;
     }
 
     filePath = getFilePath();
@@ -71,13 +68,16 @@ public class JsonImportAndExportController implements VPActionController {
   }
 
   /**
-   * Called when the menu containing the button is accessed allowing for action manipulation, such
+   * Called when the menu containing the button is accessed allowing for action
+   * manipulation, such
    * as enable/disable or selecting the button.
    *
-   * <p>OBS: DOES NOT apply to this class.
+   * <p>
+   * OBS: DOES NOT apply to this class.
    */
   @Override
-  public void update(VPAction action) {}
+  public void update(VPAction action) {
+  }
 
   private boolean shouldExport() {
     return EXPORT_ACTION_ID.equals(action.getActionId())
@@ -96,8 +96,7 @@ public class JsonImportAndExportController implements VPActionController {
     String suggestedFileName = projectConfigurations.getExportFilename();
 
     if (suggestedFileName.isEmpty()) {
-      final String projectName =
-          ApplicationManager.instance().getProjectManager().getProject().getName();
+      final String projectName = ApplicationManager.instance().getProjectManager().getProject().getName();
       suggestedFileName = projectName + ".json";
     }
 
@@ -150,7 +149,7 @@ public class JsonImportAndExportController implements VPActionController {
       final String importFileContents = Files.readString(filePath);
 
       if (!context.isCancelled()) {
-        Ontouml2UmlLoader.deserializeAndLoad(importFileContents, false, false);
+        Ontouml2UmlLoader.deserializeAndLoad(importFileContents, true, false);
         saveFilePath();
         ViewManagerUtils.log(MESSAGE_MODEL_IMPORTED);
         return List.of(MESSAGE_MODEL_IMPORTED);

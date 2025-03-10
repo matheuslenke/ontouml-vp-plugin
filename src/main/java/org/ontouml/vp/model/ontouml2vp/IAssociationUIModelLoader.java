@@ -5,6 +5,7 @@ import com.vp.plugin.DiagramManager;
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.model.IAssociation;
+import com.vp.plugin.model.IAssociationClass;
 import com.vp.plugin.model.IModelElement;
 
 import org.ontouml.ontouml4j.model.view.BinaryConnectorView;
@@ -17,8 +18,7 @@ public class IAssociationUIModelLoader {
   public static void load(IClassDiagramUIModel toDiagram, BinaryConnectorView fromView) {
     IModelElement toModelElement = LoaderUtils.getIModelElement(fromView);
 
-    if (!(toModelElement instanceof IAssociation)) {
-      //        && !(toModelElement instanceof IAssociationClass)) {
+    if (!(toModelElement instanceof IAssociation) && !(toModelElement instanceof IAssociationClass)) {
       System.out.println(
           LoaderUtils.getIncompatibleMessage(fromView, toModelElement, IAssociation.class));
       return;

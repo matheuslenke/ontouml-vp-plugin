@@ -30,6 +30,8 @@ public class ReferenceTransformer {
       stub = new Generalization();
     } else if (source instanceof IGeneralizationSet) {
       stub = new GeneralizationSet();
+    } else if (source instanceof INOTE) {
+      stub = new Note();
     }
 
     if (stub != null) {

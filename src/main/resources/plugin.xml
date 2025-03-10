@@ -6,7 +6,7 @@
 
 <!-- The runtime tag is necessary in order to VP load the necessary libs of the plugin when running it. -->
   <runtime>
-    <library path="lib/ontouml4j-0.1.1.jar" relativePath="true"/>
+    <library path="lib/ontouml4j-0.1.2.jar" relativePath="true"/>
   </runtime>
 
   <actionSets>

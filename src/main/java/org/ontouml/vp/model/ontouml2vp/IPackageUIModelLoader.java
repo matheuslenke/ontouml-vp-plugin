@@ -26,10 +26,9 @@ public class IPackageUIModelLoader {
 
     toView.resetCaption();
 
-    // TODO
-    // toView.setX(fromView.getX());
-    // toView.setY(fromView.getY());
-    // toView.setWidth(fromView.getWidth());
-    // toView.setHeight(fromView.getHeight());
+     toView.setX(fromView.getRectangle().getX());
+     toView.setY(fromView.getRectangle().getY());
+     toView.setWidth(fromView.getRectangle().getWidth());
+     toView.setHeight(fromView.getRectangle().getHeight());
   }
 }

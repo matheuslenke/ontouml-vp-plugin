@@ -3,9 +3,8 @@ package org.ontouml.vp.model.ontouml2vp;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
-import org.ontouml.ontouml4j.model.Project;
+import org.ontouml.ontouml4j.model.*;
 import org.ontouml.ontouml4j.model.Class;
-import org.ontouml.ontouml4j.model.ModelElement;
 import org.ontouml.ontouml4j.model.Package;
 
 public class IProjectLoader {
@@ -18,91 +17,96 @@ public class IProjectLoader {
     importModel(project);
     System.out.println("Model loaded!");
     System.out.println("Loading diagrams of project " + project.getId() + "...");
-//     project
-//         .getDiagrams()
-//         .values()
-//         .forEach(
-//             diagram ->
-//                 IClassDiagramLoader.load(
-//                     diagram, shouldOverrideDiagrams, shouldAutoLayoutDiagrams));
-//     System.out.println("Diagrams loaded!");
+    project
+        .getAllDiagrams()
+        .forEach(
+            diagram -> IClassDiagramLoader.load(
+                diagram, shouldOverrideDiagrams, shouldAutoLayoutDiagrams));
+    System.out.println("Diagrams loaded!");
   }
 
   public static void importModel(Project fromProject) {
 
-//     fromProject.getPackages().values().stream()
-//         .filter(pkg -> !pkg.isRoot())
-//         .forEach(pkg -> IPackageLoader.importElement(pkg));
+    fromProject
+        .getAllPackages().stream()
+        .filter(pkg -> !pkg.isRoot())
+        .forEach(IPackageLoader::importElement);
 
-//     fromProject.getClasses().values().stream()
-//         .filter(c -> !c.isPrimitiveDatatype())
-//         .forEach(c -> IClassLoader.importElement(c));
+    fromProject.getAllClasses().stream()
+        .filter(c -> !c.isPrimitiveDatatype())
+        .forEach(IClassLoader::importElement);
 
-    // fromProject.getAllPrimitiveDatatypes().forEach(d -> IDataTypeLoader.importElement(d));
+    fromProject.getAllNotes().stream().forEach(INoteLoader::importElement);
+
+    // fromProject.getAllPrimitiveDatatypes().forEach(d ->
+    // IDataTypeLoader.importElement(d));
 
     // TODO
-    // // transform attributes
-    // fromProject.getAllClasses().stream()
-    //     .filter(c -> c.hasAttributes())
-    //     .forEach(c -> IAttributeLoader.importAttributes(c));
+    // transform attributes
+    fromProject.getAllClasses().stream()
+        .filter(Class::hasAttributes)
+        .forEach(IAttributeLoader::importAttributes);
 
-    // // transform literals
-    // fromProject.getAllEnumerations().forEach(c -> IEnumerationLoader.importLiterals(c));
+    // transform literals
+    // TODO
+    // fromProject.getAllEnumerations().forEach(c ->
+    // IEnumerationLoader.importLiterals(c));
 
-    // fromProject.getAllPackages().stream()
-    //     .filter(pkg -> !pkg.isRoot())
-    //     .forEach(pkg -> transferContainerAndName(pkg));
+    fromProject.getAllPackages().forEach(IProjectLoader::transferContainerAndName);
 
-    // fromProject.getAllClasses().forEach(pkg -> transferContainerAndName(pkg));
+    fromProject.getAllClasses().forEach(IProjectLoader::transferContainerAndName);
 
-    // fromProject.getAllRelations().stream()
-    //     .filter(rel -> rel.holdsBetweenClasses())
-    //     .forEach(rel -> System.out.println(rel));
+    fromProject.getAllRelations().stream()
+        .filter(rel -> rel instanceof BinaryRelation)
+        .map(rel -> (BinaryRelation) rel)
+        .filter(BinaryRelation::holdsBetweenClasses)
+        .forEach(System.out::println);
 
-    // // transform relations between classes
-    // fromProject.getAllRelations().stream()
-    //     .filter(rel -> rel.holdsBetweenClasses())
-    //     .forEach(rel -> IAssociationLoader.importElement(rel));
+    // transform relations between classes
+    fromProject.getAllRelations().stream()
+        .filter(rel -> rel instanceof BinaryRelation)
+        .map(rel -> (BinaryRelation) rel)
+        .filter(BinaryRelation::holdsBetweenClasses)
+        .forEach(IAssociationLoader::importElement);
 
-    // // transform relations between classes and relations
-    // fromProject.getAllRelations().stream()
-    //     .filter(rel -> rel.holdsBetweenClassAndRelation())
-    //     .forEach(rel -> IAssociationClassLoader.importElement(rel));
+    // transform relations between classes and relations
+    fromProject.getAllRelations().stream()
+        .filter(rel -> rel instanceof BinaryRelation)
+        .map(rel -> (BinaryRelation) rel)
+        .filter(BinaryRelation::holdsBetweenClassAndRelation)
+        .forEach(IAssociationClassLoader::importElement);
 
-    // // transform generalization
-    // fromProject.getAllGeneralizations().forEach(gen -> IGeneralizationLoader.importElement(gen));
+    // transform generalization
+    fromProject.getAllGeneralizations().forEach(IGeneralizationLoader::importElement);
 
-    // // transform generalization sets
-    // fromProject
-    //     .getAllGeneralizationSets()
-    //     .forEach(gs -> IGeneralizationSetLoader.importElement(gs));
+    // transform generalization sets
+    fromProject.getAllGeneralizationSets().forEach(IGeneralizationSetLoader::importElement);
   }
 
   private static void transferContainerAndName(ModelElement fromElement) {
-    // IModelElement toElement = vpProject.getModelElementById(fromElement.getId());
+    IModelElement toElement = vpProject.getModelElementById(fromElement.getId());
 
-    // if (toElement == null) return;
+    if (toElement == null)
+      return;
 
-    // System.out.println(
-    //     "Transferring container and name of "
-    //         + fromElement.getType()
-    //         + " "
-    //         + fromElement.getFirstName().orElse(null)
-    //         + " ("
-    //         + fromElement.getId()
-    //         + ")");
+    System.out.println(
+        "Transferring container and name of "
+            + fromElement.getType()
+            + " "
+            + fromElement.getFirstName().orElse(null)
+            + " ("
+            + fromElement.getId()
+            + ")");
 
-    // fromElement
-    //     .getContainer()
-    //     .ifPresent(
-    //         container -> {
-    //           if ((container instanceof Package && !((Package) container).isRoot())
-    //               || container instanceof Class) {
-    //             IModelElement toContainer = vpProject.getModelElementById(container.getId());
-    //             toContainer.addChild(toElement);
-    //           }
-    //         });
+    OntoumlElement container = fromElement.getContainer();
+    if (container != null) {
+      if ((container instanceof Package && !((Package) container).isRoot())
+          || container instanceof Class) {
+        IModelElement toContainer = vpProject.getModelElementById(container.getId());
+        toContainer.addChild(toElement);
+      }
+    }
 
-    // LoaderUtils.loadName(fromElement, toElement);
+    LoaderUtils.loadName(fromElement, toElement);
   }
 }

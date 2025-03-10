@@ -5,11 +5,9 @@ import com.vp.plugin.DiagramManager;
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.IDiagramUIModel;
 import com.vp.plugin.diagram.shape.IClassUIModel;
-import com.vp.plugin.model.IModelElement;
 import com.vp.plugin.model.IProject;
 import java.util.stream.Stream;
-
-import org.ontouml.ontouml4j.model.view.Diagram;
+import org.ontouml.ontouml4j.model.view.*;
 
 public class IClassDiagramLoader {
 
@@ -17,49 +15,63 @@ public class IClassDiagramLoader {
   static DiagramManager diagramManager = ApplicationManager.instance().getDiagramManager();
 
   public static void load(Diagram fromDiagram, boolean shouldOverride, boolean shouldAutoLayout) {
-    if (!shouldOverride && vpDiagramExists(fromDiagram)) return;
+    if (!shouldOverride && vpDiagramExists(fromDiagram))
+      return;
 
     IClassDiagramUIModel toDiagram = createIDiagram(fromDiagram);
     transferDiagramProperties(fromDiagram, toDiagram);
 
     // TODO
-    // fromDiagram
-    //     .getAllClassViews()
-    //     .forEach(fromClassView -> IClassUIModelLoader.load(toDiagram, fromClassView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof ClassView)
+        .map(view -> (ClassView) view)
+        .forEach(fromClassView -> IClassUIModelLoader.load(toDiagram, fromClassView));
 
-    // fromDiagram
-    //     .getAllPackageViews()
-    //     .forEach(fromView -> IPackageUIModelLoader.load(toDiagram, fromView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof PackageView)
+        .map(view -> (PackageView) view)
+        .forEach(fromView -> IPackageUIModelLoader.load(toDiagram, fromView));
 
-    // fromDiagram.getAllRelationViews().stream()
-    //     .filter(view -> view.getModelElement() != null)
-    //     .filter(view -> view.getModelElement().holdsBetweenClasses())
-    //     .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof NoteView)
+        .map(view -> (NoteView) view)
+        .forEach(fromView -> INoteUIModelLoader.load(toDiagram, fromView));
 
-    // fromDiagram.getAllRelationViews().stream()
-    //     .filter(view -> view.getModelElement() != null)
-    //     .filter(view -> !view.getModelElement().holdsBetweenClasses())
-    //     .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof BinaryRelationView)
+        .map(view -> (BinaryRelationView) view)
+        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
 
-    // fromDiagram.getAllRelationViews().stream()
-    //     .filter(view -> view.getModelElement() != null)
-    //     .filter(view -> view.getModelElement().holdsBetweenClassAndRelation())
-    //     .forEach(
-    //         fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof BinaryRelationView)
+        .map(view -> (BinaryRelationView) view)
+        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
 
-    // fromDiagram.getAllRelationViews().stream()
-    //     .filter(view -> view.getModelElement() != null)
-    //     .filter(view -> !view.getModelElement().holdsBetweenClassAndRelation())
-    //     .forEach(
-    //         fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof BinaryRelationView)
+        .map(view -> (BinaryRelationView) view)
+        // .filter(view -> view.getModelElement() != null)
+        // .filter(view -> view.holdsBetweenClassAndRelation())
+        .forEach(
+            fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 
-    // fromDiagram
-    //     .getAllGeneralizationViews()
-    //     .forEach(fromGenView -> IGeneralizationUIModelLoader.load(toDiagram, fromGenView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof BinaryRelationView)
+        .map(view -> (BinaryRelationView) view)
+        // .filter(view -> view.getModelElement() != null)
+        // .filter(view -> !view.getModelElement().holdsBetweenClassAndRelation())
+        .forEach(
+            fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 
-    // fromDiagram
-    //     .getAllGeneralizationSetViews()
-    //     .forEach(fromGsView -> IGeneralizationSetUIModelLoader.load(toDiagram, fromGsView));
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof GeneralizationView)
+        .map(view -> (GeneralizationView) view)
+        .forEach(fromGenView -> IGeneralizationUIModelLoader.load(toDiagram, fromGenView));
+
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof GeneralizationSetView)
+        .map(view -> (GeneralizationSetView) view)
+        .forEach(fromGsView -> IGeneralizationSetUIModelLoader.load(toDiagram, fromGsView));
 
     // For information about auto layout for VP diagrams see the JavaDoc at
     // https://www.visual-paradigm.com/support/documents/pluginjavadoc/index.html?com/vp/plugin/diagram/LayoutOption.html
@@ -75,10 +87,10 @@ public class IClassDiagramLoader {
   }
 
   private static void transferDiagramProperties(Diagram fromDiagram, IDiagramUIModel toDiagram) {
-    String fromOwnerId = fromDiagram.getOwner().getId();
-    IModelElement toOwner = vpProject.getModelElementById(fromOwnerId);
+    // String fromOwnerId = fromDiagram.getOwner().getId();
+    // IModelElement toOwner = vpProject.getModelElementById(fromOwnerId);
 
-    if (toOwner != null) toOwner.addSubDiagram(toDiagram);
+    // if (toOwner != null) toOwner.addSubDiagram(toDiagram); 89w9q1
 
     String name = fromDiagram.getFirstName().orElse("Unnamed diagram");
     toDiagram.setName(name);
@@ -94,9 +106,8 @@ public class IClassDiagramLoader {
       System.out.println("Diagram " + fromDiagram.getId() + " not found! Let's create it");
     }
 
-    IClassDiagramUIModel toDiagram =
-        (IClassDiagramUIModel)
-            diagramManager.createDiagram(DiagramManager.DIAGRAM_TYPE_CLASS_DIAGRAM);
+    IClassDiagramUIModel toDiagram = (IClassDiagramUIModel) diagramManager
+        .createDiagram(DiagramManager.DIAGRAM_TYPE_CLASS_DIAGRAM);
     fromDiagram.setId(toDiagram.getId());
 
     return toDiagram;

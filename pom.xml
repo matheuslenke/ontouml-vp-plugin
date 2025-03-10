@@ -37,7 +37,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ontouml4j.path>lib/ontouml4j-0.1.1.jar</ontouml4j.path>
+        <ontouml4j.path>lib/ontouml4j-0.1.2.jar</ontouml4j.path>
+        <ontouml4j.libFile>/lib/ontouml4j-0.1.2-jar</ontouml4j.libFile>
         <visualparadigm.app.dir>
             /Applications/Visual Paradigm.app/Contents/Resources/app
         </visualparadigm.app.dir>
@@ -50,9 +51,9 @@
         <dependency>
             <groupId>org.ontouml</groupId>
             <artifactId>ontouml4j</artifactId>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
             <scope>system</scope>
-            <systemPath>/Users/matheuslenke/dev/work/ontouml4j/target/ontouml4j-0.1.1.jar</systemPath>
+            <systemPath>/Users/matheuslenke/dev/work/ontouml4j/target/ontouml4j-0.1.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -267,7 +268,7 @@
                             </outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.build.directory}/lib/ontouml4j-0.1.1-jar</directory>
+                                    <directory>${project.build.directory}${file.separator}${ontouml4j.libFile}</directory>
                                 </resource>
                             </resources>
                         </configuration>

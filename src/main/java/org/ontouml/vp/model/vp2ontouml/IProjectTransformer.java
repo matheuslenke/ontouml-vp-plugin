@@ -25,32 +25,43 @@ public class IProjectTransformer {
     String id = sourceProject.getId();
     targetProject.setId(id);
 
-    // Missing: description, alternativeNames, creators
+    // Missing: description, alternativeNames, creators. This should be included as
+    // options in the plugin.
 
-    // TODO
-    //    Package root = targetProject.createModel(id + "_root", name);
-    //
-    List<ModelElement> targetElements =
-        getElementStream(sourceProject)
-            .map((IModelElement source) -> transformModelElement(source, targetProject))
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+    List<ModelElement> targetElements = getElementStream(sourceProject)
+        .map((IModelElement source) -> transformModelElement(source, targetProject))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
 
     // Setting the root package to the first package in the list.
-    Optional<Package> root = targetProject.getPackages().values().stream().findFirst();
-    root.ifPresent(targetProject::setRoot);
+    Optional<Package> root = targetProject.getAllPackages().stream().findFirst();
+    if (root.isPresent()) {
+      targetProject.setRoot(root.get());
+    } else {
+      Package rootPkg = targetProject.createPackage("_root", "Root");
+      targetProject.setRoot(rootPkg);
+    }
 
-    // This part of the code is responsible for getting the referenced datatypes in the project
-    List<ModelElement> targetDatatypes =
-        getUsedDatatypes(sourceProject).stream()
-            .map((IModelElement source) -> transformModelElement(source, targetProject))
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
+    /*
+     * This part of the code is responsible for getting the referenced datatypes in
+     * the project
+     */
+    List<ModelElement> targetDatatypes = getUsedDatatypes(sourceProject).stream()
+        .map((IModelElement source) -> transformModelElement(source, targetProject))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
     targetElements.addAll(targetDatatypes);
 
-    //    targetElements.forEach(element -> resolveContainer(element, root));
+    /*
+     * Resolve the container of each element. If the element has no container, it is
+     * attributed to the Root package
+     */
+    targetElements.stream()
+        .filter(item -> item instanceof PackageableElement)
+        .map(item -> (PackageableElement) item)
+        .forEach(element -> resolveContainer(element, targetProject.getRoot()));
     resolveReferences(targetProject);
-    //
+
     List<Diagram> diagrams = transformDiagrams(sourceProject, targetProject);
 
     diagrams.forEach(targetProject::addElement);
@@ -73,20 +84,21 @@ public class IProjectTransformer {
 
   private static Stream<IModelElement> getElementStream(IProject project) {
     final String[] elementTypes = {
-      IModelElementFactory.MODEL_TYPE_PACKAGE,
-      IModelElementFactory.MODEL_TYPE_MODEL,
-      IModelElementFactory.MODEL_TYPE_CLASS,
-      IModelElementFactory.MODEL_TYPE_GENERALIZATION,
-      IModelElementFactory.MODEL_TYPE_GENERALIZATION_SET,
-      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
-      IModelElementFactory.MODEL_TYPE_ASSOCIATION_CLASS,
-      IModelElementFactory.MODEL_TYPE_NOTE,
-      IModelElementFactory.MODEL_TYPE_ANCHOR,
+        IModelElementFactory.MODEL_TYPE_PACKAGE,
+        IModelElementFactory.MODEL_TYPE_MODEL,
+        IModelElementFactory.MODEL_TYPE_CLASS,
+        IModelElementFactory.MODEL_TYPE_GENERALIZATION,
+        IModelElementFactory.MODEL_TYPE_GENERALIZATION_SET,
+        IModelElementFactory.MODEL_TYPE_ASSOCIATION,
+        IModelElementFactory.MODEL_TYPE_ASSOCIATION_CLASS,
+        IModelElementFactory.MODEL_TYPE_NOTE,
+        IModelElementFactory.MODEL_TYPE_ANCHOR,
     };
 
     IModelElement[] sourceContents = project.toAllLevelModelElementArray(elementTypes);
 
-    // Relationships may connect other types of model elements and these need to be filtered out
+    // Relationships may connect other types of model elements and these need to be
+    // filtered out
     // the code also filters out relationships connected to null
     return Stream.of(sourceContents)
         .filter(
@@ -99,11 +111,10 @@ public class IProjectTransformer {
               var target = ((IRelationship) element).getTo();
               var sourceType = source != null ? source.getModelType() : null;
               var targetType = target != null ? target.getModelType() : null;
-              var desiredTypes =
-                  Arrays.asList(
-                      IModelElementFactory.MODEL_TYPE_NOTE,
-                      IModelElementFactory.MODEL_TYPE_ASSOCIATION,
-                      IModelElementFactory.MODEL_TYPE_CLASS);
+              var desiredTypes = Arrays.asList(
+                  IModelElementFactory.MODEL_TYPE_NOTE,
+                  IModelElementFactory.MODEL_TYPE_ASSOCIATION,
+                  IModelElementFactory.MODEL_TYPE_CLASS);
 
               return desiredTypes.contains(sourceType) && desiredTypes.contains(targetType);
             });
@@ -127,7 +138,8 @@ public class IProjectTransformer {
   }
 
   private static IModelElement getSourceParent(Object element) {
-    // VP puts an association, associationclass and generalization inside the package of its source
+    // VP puts an association, associationclass and generalization inside the
+    // package of its source
     if (element instanceof IRelationship) {
       IModelElement from = ((IRelationship) element).getFrom();
       return from != null ? from.getParent() : null;
@@ -172,8 +184,7 @@ public class IProjectTransformer {
   }
 
   public static List<IAttribute> getAllAttributes(IProject project) {
-    IModelElement[] classes =
-        project.toAllLevelModelElementArray(IModelElementFactory.MODEL_TYPE_CLASS);
+    IModelElement[] classes = project.toAllLevelModelElementArray(IModelElementFactory.MODEL_TYPE_CLASS);
 
     return Stream.of(classes)
         .map(IClass.class::cast)

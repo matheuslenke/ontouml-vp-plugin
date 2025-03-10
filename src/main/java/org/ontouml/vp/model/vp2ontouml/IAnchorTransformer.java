@@ -2,12 +2,6 @@ package org.ontouml.vp.model.vp2ontouml;
 
 import com.vp.plugin.model.*;
 import org.ontouml.ontouml4j.model.*;
-import org.ontouml.ontouml4j.model.Class;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class IAnchorTransformer {
   public static Anchor transform(IModelElement sourceElement, Project project) {
@@ -25,9 +19,6 @@ public class IAnchorTransformer {
 
     String description = sourceElement.getDescription();
     target.setDescription(new MultilingualText(description));
-
-    IModelElement from = ((IAnchor) sourceElement).getFrom();
-    IModelElement to = ((IAnchor) sourceElement).getTo();
 
     IModelElement element = getIModelElementFromAnchor((IAnchor) sourceElement);
     ModelElement modelElement = IProjectTransformer.transformModelElement(element, project);
@@ -52,7 +43,7 @@ public class IAnchorTransformer {
     return null;
   }
 
-    private static IModelElement getIModelElementFromAnchor(IAnchor sourceElement) {
+  private static IModelElement getIModelElementFromAnchor(IAnchor sourceElement) {
     if (!(sourceElement.getFrom() instanceof INOTE)) {
       return (IModelElement) sourceElement.getFrom();
     } else if (!(sourceElement.getTo() instanceof INOTE)) {

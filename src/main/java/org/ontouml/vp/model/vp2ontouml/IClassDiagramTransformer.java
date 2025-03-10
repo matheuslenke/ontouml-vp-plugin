@@ -6,10 +6,7 @@ import com.vp.plugin.diagram.IDiagramUIModel;
 import com.vp.plugin.diagram.connector.IAssociationClassUIModel;
 import com.vp.plugin.diagram.connector.IAssociationUIModel;
 import com.vp.plugin.diagram.connector.IGeneralizationUIModel;
-import com.vp.plugin.diagram.shape.IClassUIModel;
-import com.vp.plugin.diagram.shape.IGeneralizationSetUIModel;
-import com.vp.plugin.diagram.shape.IModelUIModel;
-import com.vp.plugin.diagram.shape.IPackageUIModel;
+import com.vp.plugin.diagram.shape.*;
 import com.vp.plugin.model.IModelElement;
 import java.util.Arrays;
 import org.ontouml.ontouml4j.model.ModelElement;
@@ -21,15 +18,12 @@ import org.ontouml.ontouml4j.model.view.View;
 public class IClassDiagramTransformer {
 
   public static Diagram transform(IDiagramUIModel sourceElement, Project project) {
-    if (!(sourceElement instanceof IClassDiagramUIModel)) return null;
+    if (!(sourceElement instanceof IClassDiagramUIModel))
+      return null;
 
     IClassDiagramUIModel source = (IClassDiagramUIModel) sourceElement;
 
-    Diagram target = new Diagram();
-    target.setProjectContainer(project);
-
-    String id = source.getId();
-    target.setId(id);
+    Diagram target = project.createDiagram(source.getId(), null);
 
     // TODO: Diagram should have name?
     String name = source.getName();
@@ -53,7 +47,8 @@ public class IClassDiagramTransformer {
   private static ModelElement getOwner(IClassDiagramUIModel source, Package root) {
     IModelElement owner = source.getParentModel();
 
-    if (owner == null) return root;
+    if (owner == null)
+      return root;
 
     return ReferenceTransformer.transformStub(owner);
   }
@@ -73,6 +68,8 @@ public class IClassDiagramTransformer {
       target = IGeneralizationSetUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IPackageUIModel || source instanceof IModelUIModel) {
       target = IPackageUIModelTransformer.transform(source, diagram);
+    } else if (source instanceof INoteUIModel) {
+      target = INoteUIModelTransformer.transform(source, diagram);
     }
 
     Trace.getInstance().put(source.getId(), source, target);

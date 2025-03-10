@@ -1,7 +1,5 @@
 package org.ontouml.vp.model.vp2ontouml;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.model.*;
 import org.ontouml.ontouml4j.model.Project;
