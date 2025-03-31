@@ -9,8 +9,10 @@ import org.ontouml.ontouml4j.model.view.Diagram;
 
 public class IAssociationClassUIModelTransformer {
 
-  public static BinaryRelationView transform(IDiagramElement sourceElement, Diagram diagram) {
-    if (!(sourceElement instanceof IAssociationClassUIModel)) return null;
+  public static BinaryRelationView transform(IDiagramElement sourceElement,
+      Diagram diagram) {
+    if (!(sourceElement instanceof IAssociationClassUIModel))
+      return null;
 
     IAssociationClassUIModel source = (IAssociationClassUIModel) sourceElement;
     BinaryRelationView target = new BinaryRelationView();
