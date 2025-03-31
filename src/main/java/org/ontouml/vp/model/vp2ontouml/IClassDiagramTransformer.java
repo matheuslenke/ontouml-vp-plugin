@@ -3,6 +3,7 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.IDiagramUIModel;
+import com.vp.plugin.diagram.connector.IAnchorUIModel;
 import com.vp.plugin.diagram.connector.IAssociationClassUIModel;
 import com.vp.plugin.diagram.connector.IAssociationUIModel;
 import com.vp.plugin.diagram.connector.IGeneralizationUIModel;
@@ -12,8 +13,14 @@ import java.util.Arrays;
 import org.ontouml.ontouml4j.model.ModelElement;
 import org.ontouml.ontouml4j.model.Package;
 import org.ontouml.ontouml4j.model.Project;
+import org.ontouml.ontouml4j.model.view.AnchorView;
+import org.ontouml.ontouml4j.model.view.BinaryConnectorView;
 import org.ontouml.ontouml4j.model.view.Diagram;
+import org.ontouml.ontouml4j.model.view.GeneralizationSetView;
+import org.ontouml.ontouml4j.model.view.NoteView;
 import org.ontouml.ontouml4j.model.view.View;
+import org.ontouml.ontouml4j.shape.Path;
+import org.ontouml.ontouml4j.shape.Text;
 
 public class IClassDiagramTransformer {
 
@@ -41,7 +48,39 @@ public class IClassDiagramTransformer {
         .map(item -> transfromIDiagramElement(item, target))
         .forEach(target::addElement);
 
+    resolveShapes(project, target);
+
     return target;
+  }
+
+  private static void resolveShapes(Project project, Diagram target) {
+    /*
+     * This loops through the created binary connector views in order to add the
+     * path elements to the project
+     */
+    target.getViews().stream().filter(item -> item instanceof BinaryConnectorView)
+        .forEach(
+            item -> {
+              BinaryConnectorView view = (BinaryConnectorView) item;
+              Path path = view.getPath();
+              project.addElement(path);
+            });
+
+    target.getViews().stream().filter(item -> item instanceof NoteView)
+        .forEach(
+            item -> {
+              NoteView view = (NoteView) item;
+              Text text = view.getText();
+              project.addElement(text);
+            });
+
+    target.getViews().stream().filter(item -> item instanceof GeneralizationSetView)
+        .forEach(
+            item -> {
+              GeneralizationSetView view = (GeneralizationSetView) item;
+              Text text = view.getText();
+              project.addElement(text);
+            });
   }
 
   private static ModelElement getOwner(IClassDiagramUIModel source, Package root) {
@@ -70,6 +109,8 @@ public class IClassDiagramTransformer {
       target = IPackageUIModelTransformer.transform(source, diagram);
     } else if (source instanceof INoteUIModel) {
       target = INoteUIModelTransformer.transform(source, diagram);
+    } else if (source instanceof IAnchorUIModel) {
+      target = IAnchorUIModelTransformer.transform(source, diagram);
     }
 
     Trace.getInstance().put(source.getId(), source, target);

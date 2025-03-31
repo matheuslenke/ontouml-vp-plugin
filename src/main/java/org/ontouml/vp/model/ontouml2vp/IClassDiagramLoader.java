@@ -7,6 +7,8 @@ import com.vp.plugin.diagram.IDiagramUIModel;
 import com.vp.plugin.diagram.shape.IClassUIModel;
 import com.vp.plugin.model.IProject;
 import java.util.stream.Stream;
+
+import org.ontouml.ontouml4j.model.BinaryRelation;
 import org.ontouml.ontouml4j.model.view.*;
 
 public class IClassDiagramLoader {
@@ -21,7 +23,6 @@ public class IClassDiagramLoader {
     IClassDiagramUIModel toDiagram = createIDiagram(fromDiagram);
     transferDiagramProperties(fromDiagram, toDiagram);
 
-    // TODO
     fromDiagram.getViews().stream()
         .filter(view -> view instanceof ClassView)
         .map(view -> (ClassView) view)
@@ -38,9 +39,9 @@ public class IClassDiagramLoader {
         .forEach(fromView -> INoteUIModelLoader.load(toDiagram, fromView));
 
     fromDiagram.getViews().stream()
-        .filter(view -> view instanceof BinaryRelationView)
-        .map(view -> (BinaryRelationView) view)
-        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+        .filter(view -> view instanceof AnchorView)
+        .map(view -> (AnchorView) view)
+        .forEach(fromView -> IAnchorUIModelLoader.load(toDiagram, fromView));
 
     fromDiagram.getViews().stream()
         .filter(view -> view instanceof BinaryRelationView)
@@ -50,16 +51,26 @@ public class IClassDiagramLoader {
     fromDiagram.getViews().stream()
         .filter(view -> view instanceof BinaryRelationView)
         .map(view -> (BinaryRelationView) view)
-        // .filter(view -> view.getModelElement() != null)
-        // .filter(view -> view.holdsBetweenClassAndRelation())
+        .forEach(fromRelationView -> IAssociationUIModelLoader.load(toDiagram, fromRelationView));
+
+    fromDiagram.getViews().stream()
+        .filter(view -> view instanceof BinaryRelationView)
+        .map(view -> (BinaryRelationView) view)
+        .filter(view -> view.getIsViewOf() != null)
+        .filter(view -> {
+          BinaryRelation rel = (BinaryRelation) view.getIsViewOf();
+          return rel.holdsBetweenClasses();
+        })
         .forEach(
             fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 
     fromDiagram.getViews().stream()
         .filter(view -> view instanceof BinaryRelationView)
         .map(view -> (BinaryRelationView) view)
-        // .filter(view -> view.getModelElement() != null)
-        // .filter(view -> !view.getModelElement().holdsBetweenClassAndRelation())
+        .filter(view -> {
+          BinaryRelation rel = (BinaryRelation) view.getIsViewOf();
+          return rel.holdsBetweenClassAndRelation();
+        })
         .forEach(
             fromRelationView -> IAssociationClassUIModelLoader.load(toDiagram, fromRelationView));
 

@@ -27,8 +27,10 @@ public class IPropertyAdapter implements IAdapter {
 
   @Override
   public IModelElement get() {
-    if (isAttribute()) return attribute;
-    if (isAssociationEnd()) return associationEnd;
+    if (isAttribute())
+      return attribute;
+    if (isAssociationEnd())
+      return associationEnd;
     return null;
   }
 
@@ -52,21 +54,27 @@ public class IPropertyAdapter implements IAdapter {
   }
 
   public boolean isReadOnly() {
-    if (isAttribute()) return attribute.isReadOnly();
-    if (isAssociationEnd()) return associationEnd.isReadOnly();
+    if (isAttribute())
+      return attribute.isReadOnly();
+    if (isAssociationEnd())
+      return associationEnd.isReadOnly();
     return false;
   }
 
   public boolean isDerived() {
-    if (isAttribute()) return attribute.isDerived();
-    if (isAssociationEnd()) return associationEnd.isDerived();
+    if (isAttribute())
+      return attribute.isDerived();
+    if (isAssociationEnd())
+      return associationEnd.isDerived();
     return false;
   }
 
   public String getMultiplicity() {
     String multiplicity = null;
-    if (isAttribute()) multiplicity = attribute.getMultiplicity();
-    if (isAssociationEnd()) multiplicity = associationEnd.getMultiplicity();
+    if (isAttribute())
+      multiplicity = attribute.getMultiplicity();
+    if (isAssociationEnd())
+      multiplicity = associationEnd.getMultiplicity();
 
     return "Unspecified".equals(multiplicity) ? null : multiplicity;
   }
@@ -92,21 +100,27 @@ public class IPropertyAdapter implements IAdapter {
   }
 
   public IModelElement getTypeAsElement() {
-    if (isAttribute()) return attribute.getTypeAsElement();
-    if (isAssociationEnd()) return associationEnd.getTypeAsElement();
+    if (isAttribute())
+      return attribute.getTypeAsElement();
+    if (isAssociationEnd())
+      return associationEnd.getTypeAsElement();
 
     return null;
   }
 
   public Iterator<?> subsettedPropertyIterator() {
-    if (isAttribute()) return attribute.subsettedPropertyIterator();
-    if (isAssociationEnd()) return associationEnd.subsettedPropertyIterator();
+    if (isAttribute())
+      return attribute.subsettedPropertyIterator();
+    if (isAssociationEnd())
+      return associationEnd.subsettedPropertyIterator();
     return null;
   }
 
   public Iterator<?> redefinedPropertyIterator() {
-    if (isAttribute()) return attribute.redefinedPropertyIterator();
-    if (isAssociationEnd()) return associationEnd.redefinedPropertyIterator();
+    if (isAttribute())
+      return attribute.redefinedPropertyIterator();
+    if (isAssociationEnd())
+      return associationEnd.redefinedPropertyIterator();
     return null;
   }
 }

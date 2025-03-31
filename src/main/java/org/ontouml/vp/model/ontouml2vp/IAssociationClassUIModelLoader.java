@@ -6,6 +6,7 @@ import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.DiagramManager;
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.diagram.IDiagramElement;
+import com.vp.plugin.model.IAssociation;
 import com.vp.plugin.model.IAssociationClass;
 import com.vp.plugin.model.IModelElement;
 
@@ -19,7 +20,7 @@ public class IAssociationClassUIModelLoader {
   public static void load(IClassDiagramUIModel toDiagram, BinaryRelationView fromView) {
     IModelElement toModelElement = LoaderUtils.getIModelElement(fromView);
 
-    if (!(toModelElement instanceof IAssociationClass)) {
+    if (!(toModelElement instanceof IAssociationClass) && !(toModelElement instanceof IAssociation)) {
       System.out.println(
           LoaderUtils.getIncompatibleMessage(fromView, toModelElement, IAssociationClass.class));
       return;
@@ -30,8 +31,7 @@ public class IAssociationClassUIModelLoader {
 
     Point[] toPoints = IConnectorUIModelLoader.loadPoints(fromView);
 
-    IDiagramElement toView =
-        diagramManager.createConnector(toDiagram, toModelElement, toSource, toTarget, toPoints);
+    IDiagramElement toView = diagramManager.createConnector(toDiagram, toModelElement, toSource, toTarget, toPoints);
 
     fromView.setId(toView.getId());
     toView.resetCaption();

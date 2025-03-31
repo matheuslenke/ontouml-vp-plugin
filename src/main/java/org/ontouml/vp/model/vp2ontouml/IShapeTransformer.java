@@ -3,6 +3,7 @@ package org.ontouml.vp.model.vp2ontouml;
 import com.vp.plugin.diagram.IShapeUIModel;
 import java.util.List;
 import org.ontouml.ontouml4j.model.view.*;
+import org.ontouml.ontouml4j.shape.Diamond;
 import org.ontouml.ontouml4j.shape.Point;
 import org.ontouml.ontouml4j.shape.Text;
 
@@ -41,7 +42,8 @@ public class IShapeTransformer {
       text.setHeight(source.getHeight());
       ((NoteView) target).setText(text);
     } else if (target instanceof NaryRelationView) {
-      // TODO: How to get diamond?
+      Diamond diamond = new Diamond(source.getId() + "_shape");
+      ((NaryRelationView) target).setDiamond(diamond);
     }
   }
 }

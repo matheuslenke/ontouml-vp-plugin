@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vp.plugin.diagram.IClassDiagramUIModel;
 import com.vp.plugin.model.*;
 import com.vp.plugin.model.factory.IModelElementFactory;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +26,7 @@ public class IProjectTransformer {
     String id = sourceProject.getId();
     targetProject.setId(id);
 
-    // Missing: description, alternativeNames, creators. This should be included as
+    // TODO: description, alternativeNames, creators. This should be included as
     // options in the plugin.
 
     List<ModelElement> targetElements = getElementStream(sourceProject)
@@ -66,11 +67,6 @@ public class IProjectTransformer {
 
     diagrams.forEach(targetProject::addElement);
 
-    try {
-      System.out.println(targetProject.serializeAsString());
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
     return targetProject;
   }
 
@@ -93,6 +89,7 @@ public class IProjectTransformer {
         IModelElementFactory.MODEL_TYPE_ASSOCIATION_CLASS,
         IModelElementFactory.MODEL_TYPE_NOTE,
         IModelElementFactory.MODEL_TYPE_ANCHOR,
+        IModelElementFactory.MODEL_TYPE_NARY,
     };
 
     IModelElement[] sourceContents = project.toAllLevelModelElementArray(elementTypes);
@@ -171,13 +168,12 @@ public class IProjectTransformer {
       target = IGeneralizationSetTransformer.transform(source, project);
     } else if (source instanceof INOTE) {
       target = INoteTransformer.transform(source, project);
-    } else if (source instanceof ISimpleRelationship) {
+    } else if (source instanceof IAnchor) {
       target = IAnchorTransformer.transform(source, project);
+    } else if (source instanceof INARY) {
+      target = INaryTransformer.transform(source, project);
     }
 
-    if (target != null) {
-      target.setProjectContainer(project);
-    }
     Trace.getInstance().put(source.getId(), source, target);
 
     return target;

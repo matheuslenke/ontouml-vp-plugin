@@ -37,7 +37,6 @@ public class IGeneralizationSetTransformer {
     List<Generalization> generalizations = transformGeneralizations(source);
     target.setGeneralizations(generalizations);
     generalizations.forEach(project::addGeneralization);
-    generalizations.forEach(generalization -> {generalization.setProjectContainer(project);});
 
     project.addGeneralizationSet(target);
     return target;

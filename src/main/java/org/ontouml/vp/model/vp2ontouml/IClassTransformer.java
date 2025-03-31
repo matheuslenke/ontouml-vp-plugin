@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class IClassTransformer {
-  private static final List<String> VP_PRIMITIVE_DATATYPES =
-      List.of(
-          "boolean", "byte", "char", "double", "float", "int", "long", "short", "string", "void");
+  private static final List<String> VP_PRIMITIVE_DATATYPES = List.of(
+      "boolean", "byte", "char", "double", "float", "int", "long", "short", "string", "void");
 
   public static Class transform(IModelElement sourceElement, Project project) {
     if (!(sourceElement instanceof IClass) && !(sourceElement instanceof IDataType)) {
@@ -23,7 +22,7 @@ public class IClassTransformer {
 
     if (sourceElement instanceof IDataType) {
       IDataType sourceDatatype = (IDataType) sourceElement;
-      //      sourceDatatype.
+      // sourceDatatype.
     }
 
     IClassAdapter source = new IClassAdapter(sourceElement);
@@ -55,7 +54,8 @@ public class IClassTransformer {
     String[] restrictedTo = source.getRestrictedTo();
     if (restrictedTo != null) {
       List<Optional<Nature>> natures = Stream.of(restrictedTo).map(Nature::findByName).collect(Collectors.toList());
-      target.setRestrictedToNatures(natures.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+      target.setRestrictedToNatures(
+          natures.stream().filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
     }
 
     List<Property> attributes = transformAttributes(source, project);
@@ -63,7 +63,6 @@ public class IClassTransformer {
 
     List<Literal> literals = transformLiterals(source);
     literals.forEach(project::addLiteral);
-    literals.forEach(item -> item.setProjectContainer(project));
     List<String> literalIds = literals.stream().map(Literal::getId).collect(Collectors.toList());
     target.setLiterals(literalIds);
 

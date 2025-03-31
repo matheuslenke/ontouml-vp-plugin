@@ -31,12 +31,11 @@ public class IGeneralizationSetUIModelLoader {
     toView.setNotation(2);
     toView.resetCaption();
 
-    // TODO
-    // if (toView instanceof ClassView) {
-    // toView.setX(fromView.getText().getX());
-    // toView.setY(fromView.getText().getY());
-    // toView.setWidth(fromView.getText().getWidth());
-    // toView.setHeight(fromView.getText().getHeight());
-    // }
+    if (toView instanceof ClassView) {
+      toView.setX(fromView.getText().getX());
+      toView.setY(fromView.getText().getY());
+      toView.setWidth(fromView.getText().getWidth());
+      toView.setHeight(fromView.getText().getHeight());
+    }
   }
 }

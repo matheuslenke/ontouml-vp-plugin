@@ -1,7 +1,8 @@
 package org.ontouml.vp.model.ontouml2vp;
 
+import java.awt.Point;
+
 import org.ontouml.ontouml4j.model.view.BinaryConnectorView;
-import java.awt.*;
 
 public class IConnectorUIModelLoader {
 

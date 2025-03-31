@@ -1,6 +1,7 @@
 package org.ontouml.vp.model.ontouml2vp;
 
 import org.ontouml.ontouml4j.model.view.NoteView;
+import org.ontouml.ontouml4j.shape.Text;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.DiagramManager;
@@ -25,10 +26,12 @@ public class INoteUIModelLoader {
     fromView.setId(toView.getId());
 
     toView.resetCaption();
-
-    toView.setX(0);
-    toView.setY(0);
-    toView.setWidth(200);
-    toView.setHeight(100);
+    Text text = fromView.getText();
+    if (text != null) {
+      toView.setX(text.getTopLeft().getX());
+      toView.setY(text.getTopLeft().getY());
+      toView.setWidth(text.getWidth());
+      toView.setHeight(text.getHeight());
+    }
   }
 }
