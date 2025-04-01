@@ -43,6 +43,10 @@ public class IShapeTransformer {
       ((NoteView) target).setText(text);
     } else if (target instanceof NaryRelationView) {
       Diamond diamond = new Diamond(source.getId() + "_shape");
+      diamond.getTopLeft().setX(source.getX());
+      diamond.getTopLeft().setY(source.getY());
+      diamond.setWidth(source.getWidth());
+      diamond.setHeight(source.getHeight());
       ((NaryRelationView) target).setDiamond(diamond);
     }
   }

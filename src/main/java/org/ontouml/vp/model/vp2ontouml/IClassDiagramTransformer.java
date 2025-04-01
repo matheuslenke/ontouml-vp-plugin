@@ -17,8 +17,10 @@ import org.ontouml.ontouml4j.model.view.AnchorView;
 import org.ontouml.ontouml4j.model.view.BinaryConnectorView;
 import org.ontouml.ontouml4j.model.view.Diagram;
 import org.ontouml.ontouml4j.model.view.GeneralizationSetView;
+import org.ontouml.ontouml4j.model.view.NaryRelationView;
 import org.ontouml.ontouml4j.model.view.NoteView;
 import org.ontouml.ontouml4j.model.view.View;
+import org.ontouml.ontouml4j.shape.Diamond;
 import org.ontouml.ontouml4j.shape.Path;
 import org.ontouml.ontouml4j.shape.Text;
 
@@ -81,6 +83,13 @@ public class IClassDiagramTransformer {
               Text text = view.getText();
               project.addElement(text);
             });
+
+    target.getViews().stream().filter(item -> item instanceof NaryRelationView)
+        .forEach(item -> {
+          NaryRelationView view = (NaryRelationView) item;
+          Diamond diamond = view.getDiamond();
+          project.addElement(diamond);
+        });
   }
 
   private static ModelElement getOwner(IClassDiagramUIModel source, Package root) {
@@ -111,6 +120,8 @@ public class IClassDiagramTransformer {
       target = INoteUIModelTransformer.transform(source, diagram);
     } else if (source instanceof IAnchorUIModel) {
       target = IAnchorUIModelTransformer.transform(source, diagram);
+    } else if (source instanceof INARYUIModel) {
+      target = INaryUIModelTransformer.transform(source, diagram);
     }
 
     Trace.getInstance().put(source.getId(), source, target);
