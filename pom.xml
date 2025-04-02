@@ -41,10 +41,10 @@
         <ontouml4j.path>lib/ontouml4j-${ontouml4j.version}.jar</ontouml4j.path>
         <ontouml4j.libFile>/lib/ontouml4j-${ontouml4j.version}-jar</ontouml4j.libFile>
         <visualparadigm.app.dir>
-         <!-- APP_PATH -->
+            /Applications/Visual Paradigm.app/Contents/Resources/app
         </visualparadigm.app.dir>
         <visualparadigm.plugin.dir>
-        <!-- PLUGIN_PATH -->
+            /Users/matheuslenke/Library/Application Support/VisualParadigm/plugins
         </visualparadigm.plugin.dir>
     </properties>
 
@@ -53,6 +53,8 @@
             <groupId>org.ontouml</groupId>
             <artifactId>ontouml4j</artifactId>
             <version>${ontouml4j.version}</version>
+            <scope>system</scope>
+            <systemPath>/Users/matheuslenke/dev/work/ontouml4j/target/ontouml4j-0.1.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
