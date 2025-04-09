@@ -161,7 +161,7 @@ public class IProjectTransformer {
     } else if (source instanceof IPackage || source instanceof IModel) {
       target = IPackageTransformer.transform(source, project);
     } else if (source instanceof IAttribute || source instanceof IAssociationEnd) {
-      target = IPropertyTransformer.transform(source, project);
+      target = IPropertyTransformer.transform(source);
     } else if (source instanceof IGeneralization) {
       target = IGeneralizationTransformer.transform(source, project);
     } else if (source instanceof IGeneralizationSet) {

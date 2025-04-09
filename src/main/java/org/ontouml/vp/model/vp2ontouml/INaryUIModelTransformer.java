@@ -1,16 +1,20 @@
 package org.ontouml.vp.model.vp2ontouml;
 
-import java.util.Arrays;
+import java.util.*;
 
+import com.vp.plugin.model.IRelationship;
 import org.ontouml.ontouml4j.model.NaryRelation;
 import org.ontouml.ontouml4j.model.view.Diagram;
 import org.ontouml.ontouml4j.model.view.NaryRelationView;
+import org.ontouml.ontouml4j.model.view.View;
+import org.ontouml.ontouml4j.shape.Path;
 
 import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.diagram.IShapeUIModel;
 import com.vp.plugin.diagram.format.IShapeUIModelFillColor;
 import com.vp.plugin.diagram.shape.INARYUIModel;
 import com.vp.plugin.model.IModelElement;
+import com.vp.plugin.model.INARY;
 
 public class INaryUIModelTransformer {
   public static NaryRelationView transform(IDiagramElement sourceElement, Diagram diagram) {
@@ -18,15 +22,59 @@ public class INaryUIModelTransformer {
       return null;
 
     INARYUIModel source = (INARYUIModel) sourceElement;
-    source.getFromConnectorAt(0);
+
     NaryRelationView target = new NaryRelationView();
 
     IDiagramElementTransformer.transform(source, target, NaryRelation.class);
     IShapeTransformer.transform(source, target);
 
+    INARY inary = (INARY) sourceElement.getModelElement();
+
+    // The first step is to get all IRelationshipEnd elements connected to the
+    Iterator<?> fromEndIterable =  inary.fromRelationshipIterator();
+    List<View> members = new ArrayList<>();
+    fromEndIterable.forEachRemaining(item -> {
+      IRelationship element = (IRelationship) item;
+      Optional<?> diagramElement = Arrays.stream(element.getDiagramElements()).findFirst();
+      if (diagramElement.isPresent()) {
+        IDiagramElement diagramElementValue = (IDiagramElement) diagramElement.get();
+        Optional<View> classView = diagram.getViewById(diagramElementValue.getId());
+        classView.ifPresent(members::add);
+      } else {
+        System.out.println("No diagram element found for the relationship end.");
+      }
+      target.setMembers(members);
+    });
+
+    // Each end is connected to the INARY Element. In order to access the other
+    // elements, we need then to get the opposite IRelationshipEnd.
+    // for (IRelationshipEnd element : fromEndIterable) {
+    // IRelationshipEnd oppositeEnd = element.getOppositeEnd();
+    // Property endProperty = IPropertyTransformer.transform(oppositeEnd, project);
+    // targetProperties.add(endProperty);
+    // project.addProperty(endProperty);
+
+    // IDiagramElement[] diagramElements = oppositeEnd.getDiagramElements();
+    // System.out.println("Number of diagram elements: " + diagramElements.length);
+    // for (IDiagramElement diagramElement : diagramElements) {
+    // System.out.println("Diagram Element: " + diagramElement.getId() + " " +
+    // diagramElement.getShapeType());
+    // }
+    // }
+
+    target.setMembers(new ArrayList<View>());
+
+    target.setPaths(new ArrayList<Path>());
+
+    // if (parent instanceof IShapeUIModel) {
+    // IShapeUIModel shape = (IShapeUIModel) parent;
+    // shape.get
+    // IModelElement[] members = shape.getSelectedShapeMembers();
+    // }
+
     diagram.addElement(target);
 
-    exploreShapeUIGetters(source);
+//    exploreShapeUIGetters(source);
 
     return target;
   }

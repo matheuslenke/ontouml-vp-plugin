@@ -14,20 +14,20 @@ import java.util.List;
 
 public class IPropertyTransformer {
 
-  public static Property transform(IModelElement source, Project project) {
+  public static Property transform(IModelElement source) {
     if (source instanceof IAttribute) {
-      return transform(new IPropertyAdapter((IAttribute) source), project);
+      return transform(new IPropertyAdapter((IAttribute) source));
     }
 
     if (source instanceof IAssociationEnd) {
 
-      return transform(new IPropertyAdapter((IAssociationEnd) source), project);
+      return transform(new IPropertyAdapter((IAssociationEnd) source));
     }
 
     return null;
   }
 
-  public static Property transform(IPropertyAdapter source, Project project) {
+  public static Property transform(IPropertyAdapter source) {
     if (source.isEmpty()) {
       return null;
     }

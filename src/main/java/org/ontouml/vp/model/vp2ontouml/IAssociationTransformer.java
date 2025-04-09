@@ -27,8 +27,8 @@ public class IAssociationTransformer {
     boolean isAbstract = source.isAbstract();
     target.setAbstract(isAbstract);
 
-    Property sourceEnd = IPropertyTransformer.transform(getSourceEnd(source), project);
-    Property targetEnd = IPropertyTransformer.transform(getTargetEnd(source), project);
+    Property sourceEnd = IPropertyTransformer.transform(getSourceEnd(source));
+    Property targetEnd = IPropertyTransformer.transform(getTargetEnd(source));
     target.setProperties(List.of(sourceEnd.getId(), targetEnd.getId()));
 
     project.addRelation(target);

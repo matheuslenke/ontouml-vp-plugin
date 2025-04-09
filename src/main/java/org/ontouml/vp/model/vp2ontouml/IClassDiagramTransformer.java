@@ -13,7 +13,6 @@ import java.util.Arrays;
 import org.ontouml.ontouml4j.model.ModelElement;
 import org.ontouml.ontouml4j.model.Package;
 import org.ontouml.ontouml4j.model.Project;
-import org.ontouml.ontouml4j.model.view.AnchorView;
 import org.ontouml.ontouml4j.model.view.BinaryConnectorView;
 import org.ontouml.ontouml4j.model.view.Diagram;
 import org.ontouml.ontouml4j.model.view.GeneralizationSetView;

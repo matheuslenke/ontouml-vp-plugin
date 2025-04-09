@@ -5,7 +5,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import com.vp.plugin.diagram.IDiagramElement;
 import com.vp.plugin.model.*;
+import com.vp.plugin.model.property.IReferencedBy;
+
+import v.ccr.re;
+
 import org.ontouml.ontouml4j.model.NaryRelation;
 import org.ontouml.ontouml4j.model.Project;
 import org.ontouml.ontouml4j.model.Property;
@@ -28,22 +33,126 @@ public class INaryTransformer {
     // The first step is to get all IRelationshipEnd elements connected to the
     Iterable<IRelationshipEnd> fromEndIterable = () -> naryElement.fromRelationshipEndIterator();
 
+    Iterator relationShipIterable = naryElement.fromRelationshipIterator();
+
+    relationShipIterable.forEachRemaining(item -> {
+      if (item instanceof IRelationship) {
+        IRelationship relationship = (IRelationship) item;
+        IModelElement from = relationship.getFrom();
+        IModelElement to = relationship.getTo();
+        System.out.println("From: " + from);
+        System.out.println("To: " + to);
+        System.out.println(relationship.getName());
+      }
+    });
+
     // Each end is connected to the INARY Element. In order to access the other
     // elements, we need then to get the opposite IRelationshipEnd.
     for (IRelationshipEnd element : fromEndIterable) {
       IRelationshipEnd oppositeEnd = element.getOppositeEnd();
-      Property endProperty = IPropertyTransformer.transform(oppositeEnd, project);
+      Property endProperty = IPropertyTransformer.transform(oppositeEnd);
       targetProperties.add(endProperty);
       project.addProperty(endProperty);
-      IRelationship relationship = (IRelationship) oppositeEnd.getParent();
+
+      IDiagramElement[] diagramElements = oppositeEnd.getDiagramElements();
+      System.out.println("Number of diagram elements: " + diagramElements.length);
+      for (IDiagramElement diagramElement : diagramElements) {
+        System.out.println("Diagram Element: " + diagramElement.getId() + " " + diagramElement.getShapeType());
+      }
+
+      // callAllGettersAndPrint(elementEnd);
+
+      // IModelElement to = relationship.getTo();
+      // IModelElement from = relationship.getFrom();
+      // IModelElementTransformer.transform(relationship, project);
     }
 
     target.setProperties(targetProperties);
     project.addElement(target);
 
-    exploreInaryMethods(naryElement);
+    // exploreInaryMethods(naryElement);
 
     return target;
+  }
+
+  /**
+   * Calls all identified 'get' methods on the provided IAssociationEnd object
+   * and prints their return values to the console.
+   *
+   * @param associationEnd The IAssociationEnd object to call methods on.
+   */
+  public static void callAllGettersAndPrint(IAssociationEnd associationEnd) {
+    if (associationEnd == null) {
+      System.out.println("Provided IAssociationEnd object is null.");
+      return;
+    }
+
+    System.out.println("--- Calling Getters for IAssociationEnd ---");
+
+    try {
+      System.out.println("getAggregationKind: " + associationEnd.getAggregationKind());
+      System.out.println("getAnalysisItemDiagramIds: " + Arrays.toString(associationEnd.getAnalysisItemDiagramIds()));
+
+      // --- Methods requiring an index (using 0 as an example) ---
+      // Note: Check counts (e.g., analysisItemModelCount()) before calling these in
+      // production
+      // int index = 0;
+      // System.out
+      // .println("getAnalysisItemModelByIndex(" + index + "): " +
+      // associationEnd.getAnalysisItemModelByIndex(index));
+      // System.out
+      // .println("getRedefinedPropertyByIndex(" + index + "): " +
+      // associationEnd.getRedefinedPropertyByIndex(index));
+      // System.out
+      // .println("getSubsettedPropertyByIndex(" + index + "): " +
+      // associationEnd.getSubsettedPropertyByIndex(index));
+      // System.out
+      // .println("getSyncMappingModelByIndex(" + index + "): " +
+      // associationEnd.getSyncMappingModelByIndex(index));
+      // // --- End of index-based methods ---
+
+      System.out.println("getDefaultValue: " + associationEnd.getDefaultValue());
+      System.out.println("getEjbCodeDetail: " + associationEnd.getEjbCodeDetail());
+      System.out.println("getJavaCodeAttributeName: " + associationEnd.getJavaCodeAttributeName());
+      System.out.println("getMultiplicity: " + associationEnd.getMultiplicity());
+      System.out.println("getMultiplicityDetail: " + associationEnd.getMultiplicityDetail());
+      System.out.println("getNavigable: " + associationEnd.getNavigable());
+      System.out.println("getOrmDetail: " + associationEnd.getOrmDetail());
+      System.out.println("getPropertyStrings: " + associationEnd.getPropertyStrings());
+      System.out.println("getQualifier: " + associationEnd.getQualifier());
+      System.out.println("getQualityReason: " + associationEnd.getQualityReason());
+      System.out.println("getQualityScore: " + associationEnd.getQualityScore());
+      System.out.println("getReferencedAttribute: " + associationEnd.getReferencedAttribute());
+      System.out.println("getRepresentativeAttribute: " + associationEnd.getRepresentativeAttribute());
+      System.out.println("getTaggedValues: " + associationEnd.getTaggedValues());
+      System.out.println("getType: " + associationEnd.getType());
+      System.out.println("getTypeAsElement: " + associationEnd.getTypeAsElement());
+      System.out.println("getTypeAsModel: " + associationEnd.getTypeAsModel());
+      System.out.println("getTypeAsString: " + associationEnd.getTypeAsString());
+      System.out.println("getTypeAsText: " + associationEnd.getTypeAsText());
+      System.out.println("getTypeModifier: " + associationEnd.getTypeModifier());
+      System.out.println("getVisibility: " + associationEnd.getVisibility());
+
+    } catch (Exception e) {
+      System.err.println("An error occurred while calling getter methods: " + e.getMessage());
+      e.printStackTrace(); // Print stack trace for debugging
+    }
+
+    System.out.println("--- Finished Calling Getters ---");
+  }
+
+  // Example usage (requires an instance of IAssociationEnd)
+  public static void main(String[] args) {
+    // You would need to obtain an actual instance of IAssociationEnd here
+    // For example, from your Visual Paradigm plugin or model context.
+    IAssociationEnd exampleAssociationEnd = null; // Replace null with an actual object
+
+    if (exampleAssociationEnd != null) {
+      callAllGettersAndPrint(exampleAssociationEnd);
+    } else {
+      System.out.println("Cannot run example: exampleAssociationEnd is null.");
+      System.out.println("Please provide a valid IAssociationEnd instance.");
+    }
   }
 
   /**

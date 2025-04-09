@@ -77,7 +77,7 @@ public class IClassTransformer {
 
   public static List<Property> transformAttributes(IClassAdapter clazz, Project project) {
     return Stream.of(clazz.toAttributeArray())
-        .map(item -> IPropertyTransformer.transform(item, project))
+        .map(IPropertyTransformer::transform)
         .collect(Collectors.toList());
   }
 }
