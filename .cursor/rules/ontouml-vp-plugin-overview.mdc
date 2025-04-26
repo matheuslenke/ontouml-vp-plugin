@@ -1,0 +1,55 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# OntoUML Visual Paradigm Plugin Overview
+
+This project develops a [Visual Paradigm](mdc:https:/www.visual-paradigm.com) plugin to enable [OntoUML](mdc:https:/ontouml.org) modeling.
+
+## Technology Stack
+
+*   **Language:** Java 11 (configured in [pom.xml](mdc:pom.xml))
+*   **Build System:** [Maven](mdc:https:/maven.apache.org) (see [pom.xml](mdc:pom.xml))
+    *   Uses Maven Wrapper (`./mvnw` or `./mvnw.cmd`).
+    *   Requires local paths `visualparadigm.app.dir` and `visualparadigm.plugin.dir` to be set in `pom.xml` for development builds.
+*   **Key Dependencies:**
+    *   Visual Paradigm OpenAPI (`openapi.jar`, `vpplatform.jar`, etc., loaded from `visualparadigm.app.dir` via [pom.xml](mdc:pom.xml)).
+    *   `ontouml4j` library (local system dependency specified in [pom.xml](mdc:pom.xml), included in plugin runtime via [plugin.xml](mdc:src/main/resources/plugin.xml) and packaged in `lib/`).
+    *   Jackson & Gson (for JSON processing).
+
+## Project Structure
+
+*   **Source Code:** `src/main/java/org/ontouml/vp/`
+    *   `OntoUMLPlugin.java`: Main plugin entry point (defined in [plugin.xml](mdc:src/main/resources/plugin.xml)).
+    *   `controllers/`: Handle UI actions triggered from menus/toolbars.
+    *   `services/`: Contain business logic for features like verification, transformation, JSON import/export.
+    *   `model/`, `utils/`, etc.: Supporting classes.
+*   **Resources:** `src/main/resources/`
+    *   [plugin.xml](mdc:src/main/resources/plugin.xml): Defines the plugin structure, ID (`it.unibz.inf.ontouml.vp`), actions, menus, toolbars, context menus, and associated controller classes. Icons are referenced from `icons/`.
+    *   `icons/`: Contains images used in the plugin UI.
+*   **Build Configuration:** [pom.xml](mdc:pom.xml)
+*   **Documentation:** [README.md](mdc:README.md) contains user and developer instructions.
+*   **Output:**
+    *   `target/`: Maven build output directory.
+    *   `target/ontouml-vp-plugin-*.zip`: Distributable plugin archive created by `mvn package`.
+    *   Plugin installed for development in `${visualparadigm.plugin.dir}/ontouml-vp-plugin-${project.version}` by `mvn install`.
+
+## Key Features & Implementation Notes
+
+*   **OntoUML Stereotypes & Meta-properties:** Applied via context menus (`<contextSensitiveActionSet>` in [plugin.xml](mdc:src/main/resources/plugin.xml)) handled by `org.ontouml.vp.controllers.ApplyStereotypeController` and `org.ontouml.vp.controllers.ApplyPropertiesController`.
+*   **Model/Diagram Verification:** Implemented in `org.ontouml.vp.services.verification.ModelVerificationController`, triggered by toolbar actions in [plugin.xml](mdc:src/main/resources/plugin.xml). Uses `ontouml4j`.
+*   **JSON Import/Export:** Handled by `org.ontouml.vp.services.json.JsonImportAndExportController`.
+*   **gUFO Export:** Handled by `org.ontouml.vp.services.gufo.GufoExportController`.
+*   **Diagram Generation:** Handled by `org.ontouml.vp.controllers.ModularizationController`.
+*   **Settings, Update, Report:** Handled by respective controllers under `org.ontouml.vp.controllers` and `org.ontouml.vp.services.project`.
+
+## Build & Run (Developer)
+
+(Refer to [README.md](mdc:README.md) for details)
+
+*   **Compile:** `./mvnw compile`
+*   **Package:** `./mvnw package` (creates distributable ZIP in `target/`)
+*   **Install (for local VP):** `./mvnw install` (copies plugin to VP plugin dir)
+*   **Run VP with Plugin:** `./mvnw exec:exec` (requires prior `install`)
+*   **Clean:** `./mvnw clean`

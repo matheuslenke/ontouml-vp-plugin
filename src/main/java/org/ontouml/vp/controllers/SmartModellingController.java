@@ -30,15 +30,15 @@ public class SmartModellingController {
     compositionToEnd.setAggregationKind(IAssociationEnd.AGGREGATION_KIND_none);
   }
 
-  private static boolean setCardinalityIfEmpty(IAssociationEnd end, String cardinality) {
+//   private static boolean setCardinalityIfEmpty(IAssociationEnd end, String cardinality) {
 
-    if (end.getMultiplicity() == null || end.getMultiplicity().equals("Unspecified")) {
-      end.setMultiplicity(cardinality);
-      return true;
-    } else {
-      return false;
-    }
-  }
+//     if (end.getMultiplicity() == null || end.getMultiplicity().equals("Unspecified")) {
+//       end.setMultiplicity(cardinality);
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
 
   public static void setAssociationMetaProperties(IAssociation association) {
     Association.setDefaultMultiplicity(association, false);

@@ -157,6 +157,18 @@
       </action>
 
       <action
+        id="it.unibz.inf.ontouml.vp.actions.ProjectMetapropertiesAction"
+        actionType="generalAction"
+        description="Displays project meta-properties like alternative names and creation date."
+        style="normal"
+        tooltip="Show Project Metaproperties"
+        icon="icons/icon_project_meta.png"
+        label="Project Metaproperties"
+        menuPath="it.unibz.inf.ontouml.vp.actionset1.toolbar1/it.unibz.inf.ontouml.vp.actionset1.menu1/#">
+        <actionController class="org.ontouml.vp.controllers.ProjectMetapropertiesController"/>
+      </action>
+
+      <action
         id="it.unibz.inf.ontouml.vp.actions.ReportErrorAction"
         actionType="generalAction"
         description="Opens a bug report form on the browser."
