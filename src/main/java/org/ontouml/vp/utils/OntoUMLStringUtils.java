@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class OntoUMLStringUtils {
 
-    private static final String NOT_AVAILABLE = "N/A";
+    private static final String NOT_AVAILABLE = "";
 
     private static String formatOptionalMultilingualText(Optional<MultilingualText> multilingualTextOpt) {
         Optional<Map.Entry<String, String>> firstEntryOpt = multilingualTextOpt.flatMap(
@@ -78,7 +78,7 @@ public class OntoUMLStringUtils {
      * Formats a Map representing language tags and their corresponding text values.
      *
      * @param map The map of language tags to text values.
-     * @return A formatted string, e.g., "English Text (@en)\nPortuguese Text (@pt)", or "N/A".
+     * @return A formatted string, e.g., "English Text (@en)\nPortuguese Text (@pt)", or "".
      */
     public static String formatMultilingualTextMap(Map<String, String> map) {
         if (map == null || map.isEmpty()) {

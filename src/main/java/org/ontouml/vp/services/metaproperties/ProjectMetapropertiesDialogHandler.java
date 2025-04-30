@@ -1,11 +1,10 @@
-package org.ontouml.vp.controllers; // Or place in a dedicated 'dialogs' subpackage if preferred
+package org.ontouml.vp.services.metaproperties;
 
 import com.vp.plugin.ApplicationManager;
 import com.vp.plugin.ViewManager;
 import com.vp.plugin.view.IDialog;
 import com.vp.plugin.view.IDialogHandler;
 import org.ontouml.ontouml4j.model.Project;
-import org.ontouml.vp.views.ProjectMetapropertiesPanel; // Uses the panel (with known issues)
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,11 +17,9 @@ public class ProjectMetapropertiesDialogHandler implements IDialogHandler {
     private final ViewManager viewManager;
     private boolean wasShown = false;
     private boolean wasClosed = false;
-    private final Dimension dialogSize = new Dimension(900, 700);
-    ProjectMetapropertiesPanel panel;
+    private final Dimension dialogSize = new Dimension(600, 500);
+    ProjectMetapropertiesPanelView panel;
     JScrollPane scrollPane;
-
-
 
     public ProjectMetapropertiesDialogHandler(Project project, String projectId) {
         if (project == null) {
@@ -48,9 +45,9 @@ public class ProjectMetapropertiesDialogHandler implements IDialogHandler {
     @Override
     public Component getComponent() {
         if (panel == null) {
-            this.panel = new ProjectMetapropertiesPanel(project, projectId, this);
+            this.panel = new ProjectMetapropertiesPanelView(project, projectId, this);
             this.scrollPane = new JScrollPane(panel);
-            scrollPane.setSize(dialogSize);
+            // scrollPane.setSize(dialogSize);
             scrollPane.setBorder(BorderFactory.createEmptyBorder());
             scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         }
@@ -79,7 +76,6 @@ public class ProjectMetapropertiesDialogHandler implements IDialogHandler {
         return true;
     }
 
-    // Public method to initiate showing the dialog
     public void showDialog() {
         if (!wasClosed && !wasShown) { 
             wasShown = true;

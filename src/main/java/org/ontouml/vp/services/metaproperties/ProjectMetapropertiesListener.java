@@ -1,9 +1,7 @@
-package org.ontouml.vp.listeners;
+package org.ontouml.vp.services.metaproperties;
 
-import org.ontouml.vp.controllers.ProjectMetapropertiesDialogHandler;
 import org.ontouml.vp.data.ProjectMetapropertiesData;
 import org.ontouml.vp.services.project.ProjectMetapropertiesService;
-import org.ontouml.vp.views.ProjectMetapropertiesPanel;
 
 import com.vp.plugin.ApplicationManager;
 import org.ontouml.vp.utils.OntoUMLStringUtils;
@@ -30,10 +28,10 @@ public class ProjectMetapropertiesListener implements ActionListener {
 
     private final ProjectMetapropertiesDialogHandler dialogHandler;
     private final Project project; // The project instance being edited
-    private final ProjectMetapropertiesPanel panel; // Reference to the panel instance
+    private final ProjectMetapropertiesPanelView panel; // Reference to the panel instance
 
     // Constructor updated to take the panel directly
-     public ProjectMetapropertiesListener(ProjectMetapropertiesDialogHandler dialogHandler, Project project, ProjectMetapropertiesPanel panel) {
+     public ProjectMetapropertiesListener(ProjectMetapropertiesDialogHandler dialogHandler, Project project, ProjectMetapropertiesPanelView panel) {
          super();
          if (project == null) {
              throw new IllegalArgumentException("Project cannot be null for the listener.");

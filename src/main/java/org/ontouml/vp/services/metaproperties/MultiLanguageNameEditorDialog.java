@@ -1,6 +1,7 @@
-package org.ontouml.vp.views;
+package org.ontouml.vp.services.metaproperties;
 
 import org.ontouml.ontouml4j.model.MultilingualText;
+import org.ontouml.vp.utils.LanguageUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -8,9 +9,6 @@ import java.awt.*;
 import java.util.Map;
 
 public class MultiLanguageNameEditorDialog extends JDialog {
-
-    private static final String[] PREDEFINED_LANGUAGES = {"en", "pt", "es", "de", "fr", "it", "nl", ""}; // "" for default/no language
-
     private JComboBox<String> languageComboBox;
     private JTextField nameTextField;
     private JButton addUpdateButton;
@@ -48,7 +46,7 @@ public class MultiLanguageNameEditorDialog extends JDialog {
         gbc.weightx = 0;
         inputPanel.add(new JLabel("Language:"), gbc);
 
-        languageComboBox = new JComboBox<>(PREDEFINED_LANGUAGES);
+        languageComboBox = new JComboBox<>(LanguageUtils.getLanguagesCode());
         languageComboBox.setEditable(true); // Allow entering custom language codes
         gbc.gridx = 1;
         gbc.weightx = 0.3; // Give combo box some space
