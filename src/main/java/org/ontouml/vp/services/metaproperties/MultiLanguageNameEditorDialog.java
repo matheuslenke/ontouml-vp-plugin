@@ -18,24 +18,24 @@ public class MultiLanguageNameEditorDialog extends JDialog {
     private JButton cancelButton;
 
     private MultilingualText originalNameData;
-    private MultilingualText updatedNameData; // Store the updated data
+    private MultilingualText updatedNameData;
 
     public MultiLanguageNameEditorDialog(Frame owner, String title, MultilingualText nameData) {
-        super(owner, title, true); // Modal dialog
+        super(owner, title, true);
         this.originalNameData = nameData != null ? new MultilingualText(nameData.getMap()) : new MultilingualText(); // Work on a copy
-        this.updatedNameData = null; // Result is null until saved
+        this.updatedNameData = null;
         initComponents();
         populateTable();
-        pack(); // Adjust dialog size to components
-        setLocationRelativeTo(owner); // Center dialog
+        pack();
+        setLocationRelativeTo(owner);
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout(10, 10)); // Main layout with padding
+        setLayout(new BorderLayout(10, 10));
 
         // --- Input Panel (Top) ---
         JPanel inputPanel = new JPanel(new GridBagLayout());
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(3, 3, 3, 3);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -47,9 +47,9 @@ public class MultiLanguageNameEditorDialog extends JDialog {
         inputPanel.add(new JLabel("Language:"), gbc);
 
         languageComboBox = new JComboBox<>(LanguageUtils.getLanguagesCode());
-        languageComboBox.setEditable(true); // Allow entering custom language codes
+        languageComboBox.setEditable(true);
         gbc.gridx = 1;
-        gbc.weightx = 0.3; // Give combo box some space
+        gbc.weightx = 0.3;
         inputPanel.add(languageComboBox, gbc);
 
         // Name Field
@@ -58,20 +58,20 @@ public class MultiLanguageNameEditorDialog extends JDialog {
         gbc.weightx = 0;
         inputPanel.add(new JLabel("Name:"), gbc);
 
-        nameTextField = new JTextField(25); // Wider text field
+        nameTextField = new JTextField(25);
         gbc.gridx = 1;
-        gbc.gridwidth = 2; // Span across two columns
+        gbc.gridwidth = 2;
         gbc.weightx = 0.7;
         inputPanel.add(nameTextField, gbc);
 
         // Add/Update Button
         addUpdateButton = new JButton("Add/Update");
-        gbc.gridx = 1; // Align under text field start
+        gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.gridwidth = 1; // Reset gridwidth
+        gbc.gridwidth = 1;
         gbc.weightx = 0;
-        gbc.fill = GridBagConstraints.NONE; // Don't stretch button
-        gbc.anchor = GridBagConstraints.WEST; // Align button left
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST;
         inputPanel.add(addUpdateButton, gbc);
 
         add(inputPanel, BorderLayout.NORTH);
@@ -80,18 +80,17 @@ public class MultiLanguageNameEditorDialog extends JDialog {
         tableModel = new DefaultTableModel(new String[]{"Language", "Name"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make table read-only
+                return false;
             }
         };
         nameTable = new JTable(tableModel);
-        nameTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow selecting one row
-        // Add listener to populate fields when a row is selected
+        nameTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         nameTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && nameTable.getSelectedRow() != -1) {
                 int selectedRow = nameTable.getSelectedRow();
                 String lang = (String) tableModel.getValueAt(selectedRow, 0);
                 String name = (String) tableModel.getValueAt(selectedRow, 1);
-                languageComboBox.setSelectedItem(lang.isEmpty() ? "" : lang); // Handle default lang
+                languageComboBox.setSelectedItem(lang.isEmpty() ? "" : lang);
                 nameTextField.setText(name);
             }
         });
@@ -117,9 +116,9 @@ public class MultiLanguageNameEditorDialog extends JDialog {
     }
 
     private void populateTable() {
-        tableModel.setRowCount(0); // Clear existing rows
+        tableModel.setRowCount(0);
         for (Map.Entry<String, String> entry : originalNameData.getMap().entrySet()) {
-            String lang = entry.getKey().isEmpty() ? "" : entry.getKey(); // Show empty string for default
+            String lang = entry.getKey().isEmpty() ? "" : entry.getKey();
             tableModel.addRow(new Object[]{lang, entry.getValue()});
         }
     }
@@ -143,7 +142,7 @@ public class MultiLanguageNameEditorDialog extends JDialog {
 
         populateTable();
         nameTextField.setText("");
-        languageComboBox.requestFocusInWindow(); // Set focus back to language
+        languageComboBox.requestFocusInWindow();
 
         if (updated) {
              System.out.println("Updated name for language: '" + lang + "'");
@@ -153,9 +152,8 @@ public class MultiLanguageNameEditorDialog extends JDialog {
     }
 
     private void saveChanges() {
-        // The originalNameData has been modified directly by addOrUpdateName
-        this.updatedNameData = this.originalNameData; // Set the result
-        dispose(); // Close the dialog
+        this.updatedNameData = this.originalNameData;
+        dispose();
     }
 
     /**
@@ -171,8 +169,7 @@ public class MultiLanguageNameEditorDialog extends JDialog {
         dialog.setVisible(true); // Blocks until dialog is closed
         return dialog.updatedNameData; // Return the result (null if cancelled)
     }
-
-    // Example Usage (for testing standalone)
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Test Parent");

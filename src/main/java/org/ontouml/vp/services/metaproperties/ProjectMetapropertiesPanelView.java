@@ -109,22 +109,19 @@ public class ProjectMetapropertiesPanelView extends JPanel {
     }
 
     private JPanel addButtonPanel() {
-        // Add Button Panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         saveButton = new JButton("Save");
         saveButton.setBackground(Color.BLUE);
         cancelButton = new JButton("Cancel");
 
-        // Only add listeners if a listener object exists (set in constructor)
         if (this.listener != null) {
-            cancelButton.setActionCommand(ProjectMetapropertiesListener.CMD_CANCEL); // Use command for clarity
-            saveButton.setActionCommand(ProjectMetapropertiesListener.CMD_SAVE);     // Use command for clarity
+            cancelButton.setActionCommand(ProjectMetapropertiesListener.CMD_CANCEL);
+            saveButton.setActionCommand(ProjectMetapropertiesListener.CMD_SAVE);
             cancelButton.addActionListener(this.listener);
             saveButton.addActionListener(this.listener);
         } else {
-             // Disable buttons if no listener is available (e.g., read-only view)
              saveButton.setEnabled(false);
-             cancelButton.setEnabled(false); // Or maybe change Cancel to "Close"?
+             cancelButton.setEnabled(false);
         }
 
         buttonPanel.add(saveButton);
@@ -211,27 +208,25 @@ public class ProjectMetapropertiesPanelView extends JPanel {
         }
     }
 
-    // Method to show the dialog for Alternative Names
     private void editAlternativeNames() {
         List<MultilingualText> currentList = project.getAlternativeNames() != null
-                                              ? project.getAlternativeNames() : new ArrayList<>();
-        List<MultilingualText> updatedList = MultiLanguageListEditorDialog.showDialog(
-                getParentFrame(), // Use helper to find parent Frame
+                                              ? new ArrayList<>(project.getAlternativeNames())
+                                              : new ArrayList<>();
+        
+        List<MultilingualText> updatedList = MultiLanguageNameListEditorDialog.showDialog(
+                getParentFrame(), 
                 "Edit Alternative Names",
                 currentList
         );
 
-        if (updatedList != null) { // Dialog was not cancelled
+        if (updatedList != null) { 
             project.setAlternativeNames(updatedList);
-            // Update the read-only display
             List<Map<String, String>> maps = updatedList.stream().map(MultilingualText::getMap).collect(Collectors.toList());
             alternativeNamesReadOnlyArea.setText(OntoUMLStringUtils.formatMultiLanguageString(maps));
             alternativeNamesReadOnlyArea.setCaretPosition(0);
         }
     }
 
-
-    // Helper to add Label + Component pair (Unchanged from before, used for simple fields)
     private void addField(GridBagConstraints gbc, String labelText, JComponent component) {
         gbc.gridx = 0;
         gbc.weightx = 0;
@@ -241,7 +236,6 @@ public class ProjectMetapropertiesPanelView extends JPanel {
 
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        // Adjust fill/weighty based on component type for better layout
         if (component instanceof JScrollPane) {
             gbc.fill = GridBagConstraints.BOTH;
         } else {
@@ -280,7 +274,6 @@ public class ProjectMetapropertiesPanelView extends JPanel {
         textArea.setCaretPosition(0);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setRows(1);
-        // scrollPane.setPreferredSize(new Dimension(50, 60));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         return scrollPane;
@@ -299,7 +292,6 @@ public class ProjectMetapropertiesPanelView extends JPanel {
         return scrollPane;
     }
 
-    // Methods to add action listeners (Keep for potential external use, though internal buttons set listeners)
     public void addSaveActionListener(java.awt.event.ActionListener listener) {
         saveButton.addActionListener(listener);
     }
@@ -308,8 +300,6 @@ public class ProjectMetapropertiesPanelView extends JPanel {
         return projectId;
     }
 
-    // Method for the listener to retrieve the updated project object
-    // Note: The project object is modified directly by the dialogs and components
     public Project getUpdatedProject() {
         return project;
     }
