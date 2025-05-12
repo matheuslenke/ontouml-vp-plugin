@@ -17,7 +17,7 @@ public class ProjectMetapropertiesDialogHandler implements IDialogHandler {
     private final ViewManager viewManager;
     private boolean wasShown = false;
     private boolean wasClosed = false;
-    private final Dimension dialogSize = new Dimension(600, 500);
+    private final Dimension dialogSize = new Dimension(900, 500);
     ProjectMetapropertiesPanelView panel;
     JScrollPane scrollPane;
 

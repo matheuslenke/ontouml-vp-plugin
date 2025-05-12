@@ -178,8 +178,6 @@ public class MultiLanguageNameListEditorDialog extends JDialog {
             } else if (value != null) {
                  ((JLabel) renderer).setText(value.toString()); // Fallback
             }
-
-
             return renderer;
         }
     }
